@@ -1,6 +1,6 @@
 {
-  "name": "rosario-4-voci-neural",
-  "version": "2.1.0",
+  "name": "rosario-4-voci ",
+  "version": "2",
   "private": true,
   "type": "module",
   "scripts": {
