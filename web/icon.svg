@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Rosario Guidato a 4 Voci">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="68%">
+      <stop offset="0%" stop-color="#f9f2e4"/>
+      <stop offset="100%" stop-color="#dfd0b2"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a86d26"/>
+      <stop offset="100%" stop-color="#6e4111"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="204" fill="none" stroke="#c3a474" stroke-width="6" stroke-dasharray="10 14"/>
+  <rect x="230" y="106" width="52" height="300" rx="14" fill="url(#gold)"/>
+  <rect x="148" y="182" width="216" height="52" rx="14" fill="url(#gold)"/>
+  <circle cx="256" cy="208" r="14" fill="#f9f2e4" opacity="0.9"/>
+</svg>

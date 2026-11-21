@@ -1,0 +1,1013 @@
+:root,
+[data-theme="light"] {
+  --bg: #f5f6f9;
+  --bg-grad: radial-gradient(circle at top, #ffffff 0%, #eff2f7 100%);
+  --card: #ffffff;
+  --card-subtle: #f7f9fc;
+  --card-hover: #f2f6fb;
+  --border: #dde3ed;
+  --border-strong: #c4d0e0;
+  --text: #182230;
+  --text-soft: #435266;
+  --muted: #64748b;
+  --accent: #1d4e89;
+  --accent-soft: #e9f1fb;
+  --accent-border: #2c6cb8;
+  --accent-fg: #ffffff;
+  --gold: #9a6b24;
+  --gold-soft: #fdf5e6;
+  --ornament: #94a3b8;
+  --bead-done: #1d4e89;
+  --bead-idle: #d8e0ec;
+  --shadow: 0 6px 22px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="sepia"] {
+  --bg: #f4eee1;
+  --bg-grad: radial-gradient(circle at top, #fbf6eb 0%, #ede3cf 100%);
+  --card: #fdfaf3;
+  --card-subtle: #f6efe0;
+  --card-hover: #f3e9d6;
+  --border: #e1d5bf;
+  --border-strong: #cbb897;
+  --text: #2a2015;
+  --text-soft: #4e3f2d;
+  --muted: #78644c;
+  --accent: #824f18;
+  --accent-soft: #f5e8d1;
+  --accent-border: #a56a28;
+  --accent-fg: #fffdf8;
+  --gold: #824f18;
+  --gold-soft: #f7ecd7;
+  --ornament: #b69b74;
+  --bead-done: #824f18;
+  --bead-idle: #dfd2bc;
+  --shadow: 0 8px 26px rgba(66, 42, 12, 0.08);
+  --shadow-sm: 0 2px 10px rgba(66, 42, 12, 0.05);
+}
+
+[data-theme="dark"] {
+  --bg: #10141c;
+  --bg-grad: radial-gradient(circle at top, #18202e 0%, #0d1118 100%);
+  --card: #181f2b;
+  --card-subtle: #141a24;
+  --card-hover: #202838;
+  --border: #2a3447;
+  --border-strong: #3a4761;
+  --text: #f0ece3;
+  --text-soft: #cbd3df;
+  --muted: #94a1b5;
+  --accent: #d4a052;
+  --accent-soft: #26221b;
+  --accent-border: #e0b26b;
+  --accent-fg: #14110b;
+  --gold: #e0b26b;
+  --gold-soft: #262018;
+  --ornament: #606e85;
+  --bead-done: #d4a052;
+  --bead-idle: #2e384b;
+  --shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.28);
+}
+
+:root {
+  --prayer-scale: 1;
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-sm: 9px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Georgia", "Palatino Linotype", "Book Antiqua", serif;
+  background: var(--bg-grad);
+  background-attachment: fixed;
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  padding: 20px 14px 40px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* TOP BAR */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.brand-text h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  line-height: 1.15;
+}
+
+.brand-sub {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.74rem;
+  color: var(--muted);
+  margin-top: 2px;
+  letter-spacing: 0.3px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.theme-switch {
+  display: inline-flex;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-btn {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.theme-btn.active {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+.icon-pill-btn {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-soft);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.icon-pill-btn:hover,
+.icon-pill-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.install-btn {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+
+.install-btn:hover {
+  opacity: 0.92;
+  color: var(--accent-fg);
+  background: var(--accent);
+}
+
+/* CARDS */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+
+/* DEVOTION MODE TABS */
+.mode-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.mode-tab {
+  border: 1px solid var(--border);
+  background: var(--card-subtle);
+  color: var(--text-soft);
+  border-radius: var(--radius-md);
+  padding: 10px 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.16s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.mode-tab span.tab-sub {
+  font-size: 0.67rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.mode-tab:hover {
+  background: var(--card-hover);
+  border-color: var(--border-strong);
+}
+
+.mode-tab.active {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.mode-tab.active span.tab-sub {
+  color: var(--accent-fg);
+  opacity: 0.85;
+}
+
+/* SECONDARY PICKERS */
+.sub-selector {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.select-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.select-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+}
+
+.today-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--gold-soft);
+  color: var(--gold);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+.styled-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--card-subtle);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+}
+
+.styled-select:focus {
+  border-color: var(--accent);
+}
+
+/* MYSTERY PREVIEW STRIP */
+.mysteries-pills {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.mystery-pill {
+  border: 1px solid var(--border);
+  background: var(--card-subtle);
+  color: var(--text-soft);
+  border-radius: var(--radius-sm);
+  padding: 7px 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s;
+}
+
+.mystery-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.mystery-pill.active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+.mystery-pill.done {
+  opacity: 0.85;
+  border-style: solid;
+}
+
+/* HERO PRAYER STAGE */
+.stage-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-header {
+  font-family: system-ui, -apple-system, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.stage-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.stage-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stage-step-meta {
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+.stage-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  color: var(--text-soft);
+}
+
+.pill.speaker {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+
+.pill.neural {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+/* INTERACTIVE ROSARY CROWN BEADS */
+.crown-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 2px;
+}
+
+.beads-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bead-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--border-strong);
+  background: var(--card-subtle);
+  color: var(--muted);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.66rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.16s, background 0.16s, border-color 0.16s, color 0.16s;
+}
+
+.bead-btn.pater {
+  width: 30px;
+  height: 30px;
+  font-size: 0.72rem;
+  margin-right: 4px;
+}
+
+.bead-btn:hover {
+  border-color: var(--accent);
+  transform: scale(1.12);
+}
+
+.bead-btn.done {
+  background: var(--bead-done);
+  border-color: var(--bead-done);
+  color: var(--accent-fg);
+}
+
+.bead-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+  transform: scale(1.22);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+/* MEDITATION & PRAYER TEXT */
+.meditation-banner {
+  background: var(--card-subtle);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 10px 14px;
+  font-style: italic;
+  font-size: calc(0.95rem * var(--prayer-scale));
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+.prayer-parts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 82px;
+}
+
+.prayer-part {
+  padding: 11px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background: transparent;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+}
+
+.prayer-part.speaking {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+
+.prayer-part.dimmed {
+  opacity: 0.58;
+}
+
+.part-speaker-tag {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.part-text {
+  font-size: calc(1.08rem * var(--prayer-scale));
+  line-height: 1.62;
+  color: var(--text);
+}
+
+/* AUDIO PROGRESS + TRANSPORT */
+.progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--bead-idle);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.12s linear;
+}
+
+.progress-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.71rem;
+  color: var(--muted);
+}
+
+.transport-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.ctrl-btn {
+  border: 1px solid var(--border);
+  background: var(--card-subtle);
+  color: var(--text);
+  border-radius: 999px;
+  height: 40px;
+  padding: 0 14px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.14s;
+}
+
+.ctrl-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.ctrl-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+  height: 46px;
+  padding: 0 26px;
+  font-size: 0.92rem;
+  min-width: 144px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ctrl-btn.primary:hover {
+  opacity: 0.92;
+  color: var(--accent-fg);
+  background: var(--accent);
+}
+
+/* 4 VOICES SECTION */
+.voices-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.voices-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.voice-group-label {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin: 0 0 8px 4px;
+}
+
+.voice-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.voice-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.18s ease;
+}
+
+.voice-card:hover {
+  background: var(--card-hover);
+}
+
+.voice-card.selected-schema {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+}
+
+.voice-card.speaking-now {
+  box-shadow: 0 0 0 2px var(--accent), var(--shadow-sm);
+}
+
+.voice-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.voice-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.voice-card.speaking-now .voice-avatar {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+
+.voice-name {
+  font-size: 1.04rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.voice-desc {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.71rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.voice-play-btn {
+  font-family: system-ui, -apple-system, sans-serif;
+  border: none;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: transform 0.1s, opacity 0.15s;
+}
+
+.voice-play-btn:hover {
+  opacity: 0.92;
+}
+
+.voice-play-btn:active {
+  transform: scale(0.96);
+}
+
+/* SOUNDWAVE BARS */
+.wave {
+  display: none;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.voice-card.speaking-now .wave {
+  display: inline-flex;
+}
+
+.wave span {
+  width: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: wavePulse 0.9s infinite ease-in-out;
+}
+
+.wave span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.wave span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+@keyframes wavePulse {
+  0%, 100% { height: 4px; }
+  50% { height: 12px; }
+}
+
+/* SETTINGS PANEL */
+.settings-panel {
+  font-family: system-ui, -apple-system, sans-serif;
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.settings-panel.open {
+  display: flex;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.setting-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.setting-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  background: var(--card-subtle);
+  color: var(--text-soft);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+
+.chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--card-subtle);
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.toggle-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* SCHEDULE LIST */
+.schedule-panel {
+  font-family: system-ui, -apple-system, sans-serif;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.schedule-panel.open {
+  display: flex;
+}
+
+.schedule-list {
+  max-height: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 4px;
+}
+
+.schedule-item {
+  border: 1px solid transparent;
+  background: var(--card-subtle);
+  color: var(--text-soft);
+  border-radius: var(--radius-sm);
+  padding: 8px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.schedule-item:hover {
+  border-color: var(--border-strong);
+  background: var(--card-hover);
+}
+
+.schedule-item.current {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.schedule-voices {
+  font-size: 0.72rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* FOOTER TOOLS & DEDICATION */
+.footer-tools {
+  font-family: system-ui, -apple-system, sans-serif;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.footer-tools button,
+.footer-tools a,
+.footer-tools label {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--border-strong);
+  cursor: pointer;
+}
+
+.footer-tools button:hover,
+.footer-tools a:hover,
+.footer-tools label:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--text);
+  color: var(--card);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 50;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dedica-footer {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.dedica-ornament {
+  color: var(--ornament);
+  font-style: normal;
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+  letter-spacing: 5px;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 14px 10px 34px;
+  }
+  .card {
+    padding: 14px;
+  }
+  .mode-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .voices-columns {
+    grid-template-columns: 1fr;
+  }
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+  .mysteries-pills {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .ctrl-btn.primary {
+    min-width: 126px;
+    padding: 0 20px;
+  }
+}

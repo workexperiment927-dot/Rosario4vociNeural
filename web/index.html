@@ -3,899 +3,305 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rosario Guidato a 4 Voci</title>
-  <style>
-    :root, [data-theme="light"] {
-      --bg: #f5f6f8;
-      --bg-grad: linear-gradient(180deg, #eef1f5 0%, #f7f8fa 100%);
-      --card: #ffffff;
-      --card-hover: #f9fbfd;
-      --border: #dde2ea;
-      --text: #1c2430;
-      --muted: #5e6b7c;
-      --accent: #1e4d7b;
-      --accent-fg: #ffffff;
-      --active-bg: #ebf3fa;
-      --active-border: #2b6cb0;
-      --ornament: #94a3b8;
-      --shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-    }
-    [data-theme="sepia"] {
-      --bg: #f4eee1;
-      --bg-grad: linear-gradient(180deg, #efe6d5 0%, #f7f2e7 100%);
-      --card: #fcf9f2;
-      --card-hover: #f9f3e6;
-      --border: #dfd3be;
-      --text: #2c2216;
-      --muted: #75634d;
-      --accent: #7c4d19;
-      --accent-fg: #fffdf9;
-      --active-bg: #f5ead6;
-      --active-border: #9c6626;
-      --ornament: #b69b74;
-      --shadow: 0 4px 16px rgba(62, 41, 14, 0.07);
-    }
-    [data-theme="dark"] {
-      --bg: #13171f;
-      --bg-grad: linear-gradient(180deg, #0f131a 0%, #171c26 100%);
-      --card: #1d2330;
-      --card-hover: #232a39;
-      --border: #2e374a;
-      --text: #edf1f7;
-      --muted: #9aa6b8;
-      --accent: #3b82f6;
-      --accent-fg: #ffffff;
-      --active-bg: #1e2d47;
-      --active-border: #60a5fa;
-      --ornament: #475569;
-      --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-    }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: "Georgia", "Times New Roman", system-ui, -apple-system, serif;
-      background: var(--bg-grad);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      padding: 24px 16px 32px;
-      transition: background 0.25s, color 0.25s;
-    }
-    .wrap {
-      width: 100%;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* TOP BAR & THEMES */
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-      gap: 10px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .brand-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: var(--accent-fg);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-      box-shadow: var(--shadow);
-    }
-    h1 {
-      margin: 0;
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 0.3px;
-    }
-    .theme-switch {
-      display: inline-flex;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 3px;
-      gap: 2px;
-      box-shadow: var(--shadow);
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    .theme-btn {
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .theme-btn.active {
-      background: var(--accent);
-      color: var(--accent-fg);
-    }
-
-    /* SELECTORS */
-    .selector-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      box-shadow: var(--shadow);
-      margin-bottom: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    .sel-row {
-      display: flex;
-      gap: 8px;
-    }
-    .selector-card select {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      font-size: 0.9rem;
-      font-weight: 500;
-      outline: none;
-      cursor: pointer;
-    }
-    .selector-card select:focus {
-      border-color: var(--accent);
-    }
-
-    /* VOICE GROUPS */
-    .group-title {
-      font-family: system-ui, -apple-system, sans-serif;
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 1.1px;
-      color: var(--muted);
-      margin: 10px 0 7px 4px;
-      font-weight: 700;
-    }
-    .voice-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      margin-bottom: 8px;
-    }
-    .voice-row {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 13px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: var(--shadow);
-      transition: all 0.18s ease;
-    }
-    .voice-row:hover {
-      background: var(--card-hover);
-    }
-    .voice-row.playing {
-      border-color: var(--active-border);
-      background: var(--active-bg);
-      box-shadow: 0 0 0 1px var(--active-border), var(--shadow);
-    }
-    .voice-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .voice-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--border);
-      transition: background 0.2s, transform 0.2s;
-    }
-    .voice-row.playing .voice-dot {
-      background: var(--accent);
-      transform: scale(1.25);
-    }
-    .voice-name {
-      font-size: 1.08rem;
-      font-weight: 600;
-      letter-spacing: 0.2px;
-    }
-    .play-btn {
-      font-family: system-ui, -apple-system, sans-serif;
-      border: none;
-      background: var(--accent);
-      color: var(--accent-fg);
-      border-radius: 999px;
-      padding: 8px 20px;
-      font-size: 0.86rem;
-      font-weight: 600;
-      cursor: pointer;
-      min-width: 102px;
-      text-align: center;
-      transition: transform 0.1s, opacity 0.15s;
-    }
-    .play-btn:hover {
-      opacity: 0.92;
-    }
-    .play-btn:active {
-      transform: scale(0.97);
-    }
-
-    /* READING & STATUS CARD */
-    .status-box {
-      margin-top: 14px;
-      padding: 15px 16px;
-      border-radius: 12px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .status-top {
-      font-family: system-ui, -apple-system, sans-serif;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      color: var(--accent);
-      font-size: 0.82rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 7px;
-    }
-    .nav-mini {
-      display: flex;
-      gap: 5px;
-    }
-    .nav-mini button {
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      border-radius: 6px;
-      padding: 3px 9px;
-      cursor: pointer;
-      font-size: 0.75rem;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    .nav-mini button:hover {
-      border-color: var(--accent);
-    }
-    .status-text {
-      font-size: 0.98rem;
-      line-height: 1.55;
-      color: var(--text);
-      min-height: 44px;
-    }
-    .beads-mini {
-      display: flex;
-      gap: 5px;
-      align-items: center;
-      justify-content: center;
-      padding-top: 4px;
-    }
-    .b-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--border);
-      transition: all 0.2s;
-    }
-    .b-dot.active {
-      background: var(--accent);
-      transform: scale(1.35);
-    }
-
-    /* FOOTER TOOLS & DEDICATION */
-    .footer-tools {
-      font-family: system-ui, -apple-system, sans-serif;
-      margin-top: 14px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.74rem;
-      color: var(--muted);
-    }
-    .footer-tools a, .footer-tools label {
-      color: var(--muted);
-      text-decoration: none;
-      border-bottom: 1px dotted var(--muted);
-      cursor: pointer;
-    }
-    .footer-tools a:hover, .footer-tools label:hover {
-      color: var(--text);
-    }
-    .dedica-footer {
-      margin-top: 22px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      font-size: 0.85rem;
-      font-style: italic;
-      color: var(--muted);
-      line-height: 1.5;
-      letter-spacing: 0.15px;
-    }
-    .dedica-ornament {
-      color: var(--ornament);
-      font-style: normal;
-      font-size: 0.8rem;
-      margin-bottom: 4px;
-      letter-spacing: 4px;
-    }
-  </style>
+  <meta name="theme-color" content="#7c4d19" />
+  <meta name="description" content="Rosario Guidato a 4 Voci neurali italiane: Santo Rosario, Coroncina alla Divina Misericordia e Preghiere Tradizionali." />
+  <title>Rosario Guidato a 4 Voci · Audio Neurale Italiano</title>
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-
-<div class="wrap">
-  <div class="topbar">
-    <div class="brand">
-      <span class="brand-icon">✝</span>
-      <h1>Rosario a 4 Voci</h1>
-    </div>
-    <div class="theme-switch" role="group" aria-label="Tema colore">
-      <button class="theme-btn" id="th-light" onclick="setTheme('light')">Chiaro</button>
-      <button class="theme-btn active" id="th-sepia" onclick="setTheme('sepia')">Seppia</button>
-      <button class="theme-btn" id="th-dark" onclick="setTheme('dark')">Scuro</button>
-    </div>
-  </div>
-
-  <!-- SELETTORE COMPLETO DI TUTTE LE PREGHIERE -->
-  <div class="selector-card">
-    <select id="selMode" onchange="onModeChange()" aria-label="Seleziona Preghiera">
-      <optgroup label="Corone Complete (Voci Alternate)">
-        <option value="rosario_completo">Santo Rosario Completo (5 Decine)</option>
-        <option value="rosario_decina">Santo Rosario — Singola Decina</option>
-        <option value="coroncina">Coroncina alla Divina Misericordia</option>
-      </optgroup>
-      <optgroup label="Preghiere del Santo Rosario">
-        <option value="single:segno-della-croce">Segno della Croce e Invocazione</option>
-        <option value="single:credo">Credo Apostolico</option>
-        <option value="single:padre-nostro">Padre Nostro</option>
-        <option value="pair:ave-maria">Ave Maria (Completa)</option>
-        <option value="single:gloria">Gloria al Padre</option>
-        <option value="single:preghiera-di-fatima">Preghiera di Fatima (Gesù mio)</option>
-        <option value="single:salve-regina">Salve Regina</option>
-        <option value="single:orazione-finale">Orazione Finale del Rosario</option>
-      </optgroup>
-      <optgroup label="Preghiere della Coroncina">
-        <option value="single:coroncina-inizio">Preghiera Iniziale della Coroncina (Ore 15)</option>
-        <option value="single:eterno-padre">Eterno Padre</option>
-        <option value="pair:passione">Per la Sua dolorosa Passione (Completa)</option>
-        <option value="single:santo-dio">Santo Dio (Trisagio)</option>
-        <option value="single:orazione-coroncina">Orazione Conclusiva della Coroncina</option>
-      </optgroup>
-      <optgroup label="Altre Preghiere Tradizionali">
-        <option value="single:eterno-riposo">L'Eterno Riposo (Requiem)</option>
-        <option value="single:angelo-di-dio">Angelo di Dio</option>
-        <option value="single:angelus">Angelus</option>
-        <option value="single:sotto-la-tua-protezione">Sotto la tua protezione</option>
-        <option value="single:san-michele">Preghiera a San Michele Arcangelo</option>
-        <option value="single:atto-di-dolore">Atto di Dolore</option>
-      </optgroup>
-    </select>
-
-    <div class="sel-row" id="misteriRow">
-      <select id="selMisteri" onchange="onModeChange()" aria-label="Seleziona Misteri">
-        <option value="gaudiosi">Misteri Gaudiosi (Lunedì e Sabato)</option>
-        <option value="luminosi">Misteri Luminosi (Giovedì)</option>
-        <option value="dolorosi">Misteri Dolorosi (Martedì e Venerdì)</option>
-        <option value="gloriosi">Misteri Gloriosi (Mercoledì e Domenica)</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- VOCI MASCHILI -->
-  <div class="group-title">Voci Maschili</div>
-  <div class="voice-list">
-    <div class="voice-row" id="row-schema1">
-      <div class="voice-info">
-        <span class="voice-dot"></span>
-        <span class="voice-name">Marco</span>
+  <main class="app-shell">
+    <!-- INTESTAZIONE -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">✝</span>
+        <div class="brand-text">
+          <h1>Rosario a 4 Voci</h1>
+          <div class="brand-sub">Audio neurale italiano · Marco, Matteo, Chiara, Sofia</div>
+        </div>
       </div>
-      <button class="play-btn" id="btn-schema1" onclick="toggleVoiceSchema('schema1')">▶ Play</button>
-    </div>
-    <div class="voice-row" id="row-schema2">
-      <div class="voice-info">
-        <span class="voice-dot"></span>
-        <span class="voice-name">Matteo</span>
+
+      <div class="topbar-actions">
+        <div class="theme-switch" role="group" aria-label="Tema di lettura">
+          <button type="button" class="theme-btn" id="th-light" data-theme-btn="light">Chiaro</button>
+          <button type="button" class="theme-btn active" id="th-sepia" data-theme-btn="sepia">Seppia</button>
+          <button type="button" class="theme-btn" id="th-dark" data-theme-btn="dark">Scuro</button>
+        </div>
+        <button type="button" class="icon-pill-btn" id="btnSettings" aria-expanded="false" aria-controls="settingsPanel">
+          ⚙ Impostazioni
+        </button>
+        <button type="button" class="icon-pill-btn install-btn" id="btnInstall" hidden>
+          ＋ Installa
+        </button>
       </div>
-      <button class="play-btn" id="btn-schema2" onclick="toggleVoiceSchema('schema2')">▶ Play</button>
-    </div>
-  </div>
+    </header>
 
-  <!-- VOCI FEMMINILI -->
-  <div class="group-title">Voci Femminili</div>
-  <div class="voice-list">
-    <div class="voice-row" id="row-schema3">
-      <div class="voice-info">
-        <span class="voice-dot"></span>
-        <span class="voice-name">Chiara</span>
+    <!-- PANNELLO IMPOSTAZIONI COLLASSABILE -->
+    <section class="card settings-panel" id="settingsPanel" aria-label="Impostazioni di ascolto">
+      <div class="settings-grid">
+        <div class="setting-item">
+          <span class="setting-label">Velocità voce</span>
+          <div class="chip-group" id="speedChips">
+            <button type="button" class="chip" data-speed="0.85">0.85×</button>
+            <button type="button" class="chip" data-speed="0.95">0.95×</button>
+            <button type="button" class="chip active" data-speed="1">1.0×</button>
+            <button type="button" class="chip" data-speed="1.1">1.1×</button>
+            <button type="button" class="chip" data-speed="1.2">1.2×</button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <span class="setting-label">Ritmo delle pause</span>
+          <div class="chip-group" id="paceChips">
+            <button type="button" class="chip" data-pace="raccolto">Raccolto</button>
+            <button type="button" class="chip active" data-pace="normale">Normale</button>
+            <button type="button" class="chip" data-pace="fluido">Fluido</button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <span class="setting-label">Dimensione testo</span>
+          <div class="chip-group" id="fontChips">
+            <button type="button" class="chip" data-font="0.92">A−</button>
+            <button type="button" class="chip active" data-font="1">A</button>
+            <button type="button" class="chip" data-font="1.16">A+</button>
+            <button type="button" class="chip" data-font="1.32">A++</button>
+          </div>
+        </div>
+
+        <div class="setting-item">
+          <span class="setting-label">Schermo durante la preghiera</span>
+          <label class="toggle-row">
+            <span>Tieni lo schermo acceso</span>
+            <input type="checkbox" id="chkWakeLock" checked />
+          </label>
+        </div>
       </div>
-      <button class="play-btn" id="btn-schema3" onclick="toggleVoiceSchema('schema3')">▶ Play</button>
-    </div>
-    <div class="voice-row" id="row-schema4">
-      <div class="voice-info">
-        <span class="voice-dot"></span>
-        <span class="voice-name">Sofia</span>
+    </section>
+
+    <!-- SELETTORE PREGHIERA & MISTERI -->
+    <section class="card" aria-label="Scelta della preghiera">
+      <div class="mode-tabs" role="tablist" aria-label="Tipo di preghiera">
+        <button type="button" class="mode-tab active" role="tab" aria-selected="true" data-mode="rosario_completo">
+          Santo Rosario
+          <span class="tab-sub">5 Decine</span>
+        </button>
+        <button type="button" class="mode-tab" role="tab" aria-selected="false" data-mode="rosario_decina">
+          Singola Decina
+          <span class="tab-sub">1 Mistero</span>
+        </button>
+        <button type="button" class="mode-tab" role="tab" aria-selected="false" data-mode="coroncina">
+          Coroncina
+          <span class="tab-sub">Divina Misericordia</span>
+        </button>
+        <button type="button" class="mode-tab" role="tab" aria-selected="false" data-mode="altre">
+          Preghiere
+          <span class="tab-sub">Singole e tradizionali</span>
+        </button>
       </div>
-      <button class="play-btn" id="btn-schema4" onclick="toggleVoiceSchema('schema4')">▶ Play</button>
-    </div>
-  </div>
 
-  <!-- RIQUADRO LETTURA IN CORSO -->
-  <div class="status-box">
-    <div class="status-top">
-      <span id="statusTitle">Pronto all'ascolto</span>
-      <div class="nav-mini">
-        <button onclick="stepPrev()" title="Precedente">◀</button>
-        <button onclick="stopAll()" title="Ferma">■</button>
-        <button onclick="stepNext()" title="Successivo">▶</button>
+      <!-- MISTERI DEL ROSARIO -->
+      <div class="sub-selector" id="misteriBox">
+        <div class="select-row">
+          <span class="select-label">Misteri</span>
+          <span class="today-badge" id="todayMysteryBadge">Oggi</span>
+        </div>
+        <select id="selMisteri" class="styled-select" aria-label="Seleziona Misteri del Rosario">
+          <option value="gaudiosi">Misteri Gaudiosi (Lunedì e Sabato)</option>
+          <option value="luminosi">Misteri Luminosi (Giovedì)</option>
+          <option value="dolorosi">Misteri Dolorosi (Martedì e Venerdì)</option>
+          <option value="gloriosi">Misteri Gloriosi (Mercoledì e Domenica)</option>
+        </select>
+        <div class="mysteries-pills" id="mysteriesPills" aria-label="Vai alla decina"></div>
       </div>
-    </div>
-    <div class="status-text" id="statusText">Scegli la preghiera e premi Play accanto al nome desiderato.</div>
-    <div class="beads-mini" id="beadsMini" style="display:none;"></div>
-  </div>
 
-  <audio id="audioPlayer" preload="auto" style="display:none;"></audio>
+      <!-- SELETTORE PREGHIERE SINGOLE -->
+      <div class="sub-selector" id="singlePrayerBox" hidden>
+        <div class="select-row">
+          <span class="select-label">Scegli una preghiera</span>
+        </div>
+        <select id="selSinglePrayer" class="styled-select" aria-label="Seleziona Preghiera Singola">
+          <optgroup label="Preghiere del Santo Rosario (Audio Neurale HD)">
+            <option value="single:segno-della-croce">Segno della Croce e Invocazione</option>
+            <option value="single:credo">Credo Apostolico</option>
+            <option value="single:padre-nostro">Padre Nostro</option>
+            <option value="pair:ave-maria">Ave Maria (Completa a 2 voci)</option>
+            <option value="single:gloria">Gloria al Padre</option>
+            <option value="single:preghiera-di-fatima">Preghiera di Fatima (Gesù mio)</option>
+            <option value="single:salve-regina">Salve Regina</option>
+            <option value="single:orazione-finale">Orazione Finale del Rosario</option>
+          </optgroup>
+          <optgroup label="Preghiere della Coroncina (Audio Neurale HD)">
+            <option value="single:coroncina-inizio">Preghiera Iniziale della Coroncina (Ore 15)</option>
+            <option value="single:eterno-padre">Eterno Padre</option>
+            <option value="pair:passione">Per la Sua dolorosa Passione (A 2 voci)</option>
+            <option value="single:santo-dio">Santo Dio (Trisagio)</option>
+            <option value="single:orazione-coroncina">Orazione Conclusiva della Coroncina</option>
+          </optgroup>
+          <optgroup label="Altre Preghiere Tradizionali">
+            <option value="single:eterno-riposo">L'Eterno Riposo (Audio Neurale HD)</option>
+            <option value="single:angelo-di-dio">Angelo di Dio (Neurale con Marco)</option>
+            <option value="single:angelus">Angelus (Sintesi vocale)</option>
+            <option value="single:sotto-la-tua-protezione">Sotto la tua protezione (Sintesi vocale)</option>
+            <option value="single:san-michele">Preghiera a San Michele Arcangelo (Sintesi vocale)</option>
+            <option value="single:atto-di-dolore">Atto di Dolore (Sintesi vocale)</option>
+          </optgroup>
+        </select>
+      </div>
+    </section>
 
-  <div class="footer-tools">
-    <a onclick="exportJSON()">Esporta JSON</a>
-    <a onclick="exportCSV()">Esporta CSV</a>
-    <label>Importa JSON<input type="file" accept=".json" style="display:none" onchange="importJSON(event)" /></label>
-    <label>Carica MP3<input type="file" accept="audio/*" multiple style="display:none" onchange="loadMP3s(event)" /></label>
-  </div>
+    <!-- RIQUADRO LETTURA E CORONA INTERATTIVA -->
+    <section class="card stage-card" aria-live="polite">
+      <div class="stage-header">
+        <div class="stage-title-wrap">
+          <div class="stage-title" id="statusTitle">Pronto all'ascolto</div>
+          <div class="stage-step-meta" id="statusStepMeta">Scegli una voce guida qui sotto o premi Play</div>
+        </div>
+        <div class="stage-badges">
+          <span class="pill speaker" id="speakerPill" hidden>Voce: Marco</span>
+          <span class="pill neural" id="audioTypePill">Audio Neurale HD</span>
+        </div>
+      </div>
 
-  <footer class="dedica-footer">
-    <div class="dedica-ornament">✦ ✝ ✦</div>
-    Per la Gloria di Dio, Padre, Figlio e Spirito Santo e in onore della Madre di Dio la Vergine Immacolata
-  </footer>
-</div>
+      <!-- GRANI INTERATTIVI DELLA DECINA -->
+      <div class="crown-wrap" id="crownWrap" hidden>
+        <div class="beads-track" id="beadsTrack" role="group" aria-label="Grani della decina"></div>
+      </div>
 
-<script>
-const SCHEMA_DATA = {"progetto": "Santo Rosario, Coroncina alla Divina Misericordia e Preghiere Tradizionali", "versione": "2.0.0", "dataAggiornamento": "2026-11-20", "impostazioniTemporizzazione": {"pausaTraPrimaESecondaParteMs": 600, "pausaTraGraniDecinaMs": 1200, "pausaDopoMisteroMs": 1800, "pausaDopoGloriaMs": 1000, "velocitaRiproduzione": 1.0}, "vociSelezionate": {"marco": {"id": "marco", "nome": "Marco", "ruolo": "Maschile 1", "genere": "masculine", "opzioneScelta": "Opzione 1", "voiceId": "voice-10", "provinoRiferimento": "marco-opzione-1.mp3", "suffissoFile": "marco"}, "matteo": {"id": "matteo", "nome": "Matteo", "ruolo": "Maschile 2", "genere": "masculine", "opzioneScelta": "Opzione 4", "voiceId": "voice-14", "provinoRiferimento": "matteo-opzione-4.mp3", "suffissoFile": "matteo"}, "chiara": {"id": "chiara", "nome": "Chiara", "ruolo": "Femminile 1", "genere": "feminine", "opzioneScelta": "Opzione 1", "voiceId": "voice-16", "provinoRiferimento": "chiara-opzione-1.mp3", "suffissoFile": "chiara"}, "sofia": {"id": "sofia", "nome": "Sofia", "ruolo": "Femminile 2", "genere": "feminine", "opzioneScelta": "Opzione 4", "voiceId": "voice-02", "provinoRiferimento": "sofia-opzione-4.mp3", "suffissoFile": "sofia"}}, "schemiSelezione": {"schema1": {"id": "schema1", "etichettaSelettore": "Marco (Maschile 1 - Opzione 1)", "voceGuida": "marco", "vociAlternanzaDecine": ["chiara", "sofia"], "descrizione": "Marco fa da Voce Guida a tutte le preghiere; nelle decine di Rosario e Coroncina si alterna uno sì e uno no con Chiara e Sofia.", "sequenzaDecina10Grani": [{"grano": 1, "inizio": "marco", "risposta": "chiara"}, {"grano": 2, "inizio": "chiara", "risposta": "marco"}, {"grano": 3, "inizio": "marco", "risposta": "sofia"}, {"grano": 4, "inizio": "sofia", "risposta": "marco"}, {"grano": 5, "inizio": "marco", "risposta": "chiara"}, {"grano": 6, "inizio": "chiara", "risposta": "marco"}, {"grano": 7, "inizio": "marco", "risposta": "sofia"}, {"grano": 8, "inizio": "sofia", "risposta": "marco"}, {"grano": 9, "inizio": "marco", "risposta": "chiara"}, {"grano": 10, "inizio": "chiara", "risposta": "marco"}]}, "schema2": {"id": "schema2", "etichettaSelettore": "Matteo (Maschile 2 - Opzione 4)", "voceGuida": "matteo", "vociAlternanzaDecine": ["chiara", "sofia"], "descrizione": "Matteo fa da Voce Guida a tutte le preghiere; nelle decine di Rosario e Coroncina si alterna uno sì e uno no con Chiara e Sofia.", "sequenzaDecina10Grani": [{"grano": 1, "inizio": "matteo", "risposta": "chiara"}, {"grano": 2, "inizio": "chiara", "risposta": "matteo"}, {"grano": 3, "inizio": "matteo", "risposta": "sofia"}, {"grano": 4, "inizio": "sofia", "risposta": "matteo"}, {"grano": 5, "inizio": "matteo", "risposta": "chiara"}, {"grano": 6, "inizio": "chiara", "risposta": "matteo"}, {"grano": 7, "inizio": "matteo", "risposta": "sofia"}, {"grano": 8, "inizio": "sofia", "risposta": "matteo"}, {"grano": 9, "inizio": "matteo", "risposta": "chiara"}, {"grano": 10, "inizio": "chiara", "risposta": "matteo"}]}, "schema3": {"id": "schema3", "etichettaSelettore": "Chiara (Femminile 1 - Opzione 1)", "voceGuida": "chiara", "vociAlternanzaDecine": ["marco", "matteo"], "descrizione": "Chiara fa da Voce Guida a tutte le preghiere; nelle decine di Rosario e Coroncina si alterna uno sì e uno no con Marco e Matteo.", "sequenzaDecina10Grani": [{"grano": 1, "inizio": "chiara", "risposta": "marco"}, {"grano": 2, "inizio": "marco", "risposta": "chiara"}, {"grano": 3, "inizio": "chiara", "risposta": "matteo"}, {"grano": 4, "inizio": "matteo", "risposta": "chiara"}, {"grano": 5, "inizio": "chiara", "risposta": "marco"}, {"grano": 6, "inizio": "marco", "risposta": "chiara"}, {"grano": 7, "inizio": "chiara", "risposta": "matteo"}, {"grano": 8, "inizio": "matteo", "risposta": "chiara"}, {"grano": 9, "inizio": "chiara", "risposta": "marco"}, {"grano": 10, "inizio": "marco", "risposta": "chiara"}]}, "schema4": {"id": "schema4", "etichettaSelettore": "Sofia (Femminile 2 - Opzione 4)", "voceGuida": "sofia", "vociAlternanzaDecine": ["marco", "matteo"], "descrizione": "Sofia fa da Voce Guida a tutte le preghiere; nelle decine di Rosario e Coroncina si alterna uno sì e uno no con Marco e Matteo.", "sequenzaDecina10Grani": [{"grano": 1, "inizio": "sofia", "risposta": "marco"}, {"grano": 2, "inizio": "marco", "risposta": "sofia"}, {"grano": 3, "inizio": "sofia", "risposta": "matteo"}, {"grano": 4, "inizio": "matteo", "risposta": "sofia"}, {"grano": 5, "inizio": "sofia", "risposta": "marco"}, {"grano": 6, "inizio": "marco", "risposta": "sofia"}, {"grano": 7, "inizio": "sofia", "risposta": "matteo"}, {"grano": 8, "inizio": "matteo", "risposta": "sofia"}, {"grano": 9, "inizio": "sofia", "risposta": "marco"}, {"grano": 10, "inizio": "marco", "risposta": "sofia"}]}}, "preghiereAlternanzaDecine": {"ave-maria": {"titolo": "Ave Maria (1ª Parte)", "templateFile": "ave-maria-{voce}.mp3", "testo": "Ave o Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù."}, "santa-maria": {"titolo": "Santa Maria (2ª Parte)", "templateFile": "santa-maria-{voce}.mp3", "testo": "Santa Maria, Madre di Dio, prega per noi peccatori, adesso e nell'ora della nostra morte. Amen."}, "passione": {"titolo": "Dolorosa Passione (1ª Parte Coroncina)", "templateFile": "passione-{voce}.mp3", "testo": "Per la Sua dolorosa Passione,"}, "misericordia": {"titolo": "Abbi Misericordia (2ª Parte Coroncina)", "templateFile": "misericordia-{voce}.mp3", "testo": "abbi misericordia di noi e del mondo intero."}}, "preghiereGuida": {"segno-della-croce": {"categoria": "rosario", "titolo": "Segno della Croce e Invocazione", "templateFile": "segno-della-croce-{voce}.mp3", "testo": "Nel nome del Padre e del Figlio e dello Spirito Santo. Amen. O Dio vieni a salvarmi. Signore vieni presto in mio aiuto."}, "credo": {"categoria": "rosario", "titolo": "Credo Apostolico", "templateFile": "credo-{voce}.mp3", "testo": "Io credo in Dio, Padre onnipotente, creatore del cielo e della terra; e in Gesù Cristo, suo unico Figlio, nostro Signore, il quale fu concepito di Spirito Santo, nacque da Maria Vergine, patì sotto Ponzio Pilato, fu crocifisso, morì e fu sepolto; discese agli inferi; il terzo giorno risuscitò da morte; salì al cielo, siede alla destra di Dio Padre onnipotente; di là verrà a giudicare i vivi e i morti. Credo nello Spirito Santo, la santa Chiesa cattolica, la comunione dei santi, la remissione dei peccati, la risurrezione della carne, la vita eterna. Amen."}, "padre-nostro": {"categoria": "rosario", "titolo": "Padre Nostro", "templateFile": "padre-nostro-{voce}.mp3", "testo": "Padre nostro che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà come in cielo così in terra. Dacci oggi il nostro pane quotidiano, e rimetti a noi i nostri debiti come anche noi li rimettiamo ai nostri debitori, e non abbandonarci alla tentazione, ma liberaci dal male. Amen."}, "gloria": {"categoria": "rosario", "titolo": "Gloria al Padre", "templateFile": "gloria-{voce}.mp3", "testo": "Gloria al Padre e al Figlio e allo Spirito Santo, come era nel principio, e ora e sempre nei secoli dei secoli. Amen."}, "preghiera-di-fatima": {"categoria": "rosario", "titolo": "Preghiera di Fatima (Gesù mio)", "templateFile": "preghiera-di-fatima-{voce}.mp3", "testo": "Gesù mio, perdona le nostre colpe, preservaci dal fuoco dell'inferno, porta in cielo tutte le anime, specialmente le più bisognose della tua misericordia."}, "salve-regina": {"categoria": "rosario", "titolo": "Salve Regina", "templateFile": "salve-regina-{voce}.mp3", "testo": "Salve o Regina, Madre di misericordia, vita, dolcezza e speranza nostra, salve. A te ricorriamo, esuli figli di Eva; a te sospiriamo, gementi e piangenti in questa valle di lacrime. Orsù dunque, avvocata nostra, rivolgi a noi gli occhi tuoi misericordiosi. E mostraci, dopo questo esilio, Gesù, il frutto benedetto del tuo seno. O clemente, o pia, o dolce Vergine Maria."}, "orazione-finale": {"categoria": "rosario", "titolo": "Orazione Finale del Rosario", "templateFile": "orazione-finale-{voce}.mp3", "testo": "Prega per noi, Santa Madre di Dio. Affinché siamo fatti degni delle promesse di Cristo. Preghiamo. O Dio, il cui unico Figlio, con la sua vita, morte e risurrezione, ci ha procurato i beni della salvezza eterna, concedi a noi, che veneriamo questi misteri nel santo Rosario della Beata Vergine Maria, di imitare ciò che contengono e di raggiungere ciò che promettono. Per Cristo nostro Signore. Amen."}, "coroncina-inizio": {"categoria": "coroncina", "titolo": "Preghiera Iniziale della Coroncina", "templateFile": "coroncina-inizio-{voce}.mp3", "testo": "Tu sei spirato, Gesù, ma la sorgente della vita è scaturita per le anime e l'oceano della misericordia si è spalancato per il mondo intero. O Fonte della Vita, insondabile Misericordia Divina, avvolgi il mondo intero e riversati fino all'ultima goccia su di noi. O Sangue e Acqua, che scaturisti dal Cuore di Gesù come sorgente di misericordia per noi, confido in Te."}, "eterno-padre": {"categoria": "coroncina", "titolo": "Eterno Padre (Grani Grandi Coroncina)", "templateFile": "eterno-padre-{voce}.mp3", "testo": "Eterno Padre, io Ti offro il Corpo e il Sangue, l'Anima e la Divinità del Tuo dilettissimo Figlio e Signore nostro Gesù Cristo, in espiazione dei nostri peccati e di quelli del mondo intero."}, "santo-dio": {"categoria": "coroncina", "titolo": "Santo Dio (Trisagio Coroncina)", "templateFile": "santo-dio-{voce}.mp3", "testo": "Santo Dio, Santo Forte, Santo Immortale, abbi pietà di noi e del mondo intero."}, "orazione-coroncina": {"categoria": "coroncina", "titolo": "Orazione Conclusiva della Coroncina", "templateFile": "orazione-coroncina-{voce}.mp3", "testo": "O Dio Eterno, in cui la misericordia è senza fine e il tesoro della compassione è inesauribile, rivolgi a noi uno sguardo benevolo e aumenta in noi la Tua misericordia, affinché nei momenti difficili non ci perdiamo d'animo né ci scoraggiamo, ma con grande fiducia ci sottomettiamo alla Tua santa volontà, che è l'Amore e la Misericordia stessa. Amen. Gesù, confido in Te."}, "eterno-riposo": {"categoria": "altre", "titolo": "L'Eterno Riposo", "templateFile": "eterno-riposo-{voce}.mp3", "testo": "L'eterno riposo dona loro, o Signore, e splenda ad essi la luce perpetua. Riposino in pace. Amen."}, "angelo-di-dio": {"categoria": "altre", "titolo": "Angelo di Dio", "templateFile": "angelo-di-dio-{voce}.mp3", "testo": "Angelo di Dio, che sei il mio custode, illumina, custodisci, reggi e governa me, che ti fui affidato dalla pietà celeste. Amen."}, "angelus": {"categoria": "altre", "titolo": "Angelus", "templateFile": "angelus-{voce}.mp3", "testo": "L'Angelo del Signore portò l'annuncio a Maria. Ed ella concepì per opera dello Spirito Santo. Eccomi, sono la serva del Signore. Si compia in me secondo la tua parola. E il Verbo si fece carne. E venne ad abitare in mezzo a noi. Prega per noi, Santa Madre di Dio. Affinché siamo fatti degni delle promesse di Cristo. Preghiamo. Infondi nel nostro spirito la tua grazia, o Padre; tu che nell'annuncio dell'angelo ci hai rivelato l'incarnazione del tuo Figlio, per la sua passione e la sua croce guidaci alla gloria della risurrezione. Per Cristo nostro Signore. Amen."}, "sotto-la-tua-protezione": {"categoria": "altre", "titolo": "Sotto la tua protezione", "templateFile": "sotto-la-tua-protezione-{voce}.mp3", "testo": "Sotto la tua protezione cerchiamo rifugio, Santa Madre di Dio: non disprezzare le suppliche di noi che siamo nella prova, ma liberaci da ogni pericolo, o Vergine gloriosa e benedetta. Amen."}, "san-michele": {"categoria": "altre", "titolo": "Preghiera a San Michele Arcangelo", "templateFile": "san-michele-{voce}.mp3", "testo": "San Michele Arcangelo, difendici nella lotta; sii nostro aiuto contro la malvagità e le insidie del demonio. Supplichevoli preghiamo che Dio lo domini e tu, Principe della milizia celeste, con il potere che ti viene da Dio, incatena nell'inferno satana e gli altri spiriti maligni che si aggirano per il mondo per perdere le anime. Amen."}, "atto-di-dolore": {"categoria": "altre", "titolo": "Atto di Dolore", "templateFile": "atto-di-dolore-{voce}.mp3", "testo": "Mio Dio, mi pento e mi dolgo con tutto il cuore dei miei peccati, perché peccando ho meritato i tuoi castighi e molto più perché ho offeso te, infinitamente buono e degno di essere amato sopra ogni cosa. Propongo con il tuo santo aiuto di non offenderti mai più e di fuggire le occasioni prossime di peccato. Signore, misericordia, perdonami."}}, "misteriRosario": {"gaudiosi": {"titolo": "Misteri Gaudiosi", "giorni": ["Lunedì", "Sabato"], "elenco": ["Primo Mistero Gaudioso: L'annunciazione dell'Angelo a Maria Vergine.", "Secondo Mistero Gaudioso: La visita di Maria Santissima a Santa Elisabetta.", "Terzo Mistero Gaudioso: La nascita di Gesù nella grotta di Betlemme.", "Quarto Mistero Gaudioso: La presentazione di Gesù al Tempio di Gerusalemme.", "Quinto Mistero Gaudioso: Il ritrovamento di Gesù dodicenne tra i dottori nel Tempio."]}, "luminosi": {"titolo": "Misteri Luminosi", "giorni": ["Giovedì"], "elenco": ["Primo Mistero Luminoso: Il Battesimo di Gesù nel fiume Giordano.", "Secondo Mistero Luminoso: Le nozze di Cana e il primo miracolo di Gesù.", "Terzo Mistero Luminoso: L'annuncio del Regno di Dio e l'invito alla conversione.", "Quarto Mistero Luminoso: La Trasfigurazione di Gesù sul monte Tabor.", "Quinto Mistero Luminoso: L'istituzione dell'Eucaristia nell'Ultima Cena."]}, "dolorosi": {"titolo": "Misteri Dolorosi", "giorni": ["Martedì", "Venerdì"], "elenco": ["Primo Mistero Doloroso: L'agonia di Gesù nell'orto del Getsemani.", "Secondo Mistero Doloroso: La flagellazione di Gesù alla colonna.", "Terzo Mistero Doloroso: L'incoronazione di spine.", "Quarto Mistero Doloroso: La salita di Gesù al Calvario carico della croce.", "Quinto Mistero Doloroso: La crocifissione e morte di Gesù sulla croce."]}, "gloriosi": {"titolo": "Misteri Gloriosi", "giorni": ["Mercoledì", "Domenica"], "elenco": ["Primo Mistero Glorioso: La risurrezione di nostro Signore Gesù Cristo.", "Secondo Mistero Glorioso: L'ascensione di Gesù al cielo.", "Terzo Mistero Glorioso: La discesa dello Spirito Santo nel Cenacolo su Maria e gli Apostoli.", "Quarto Mistero Glorioso: L'assunzione di Maria Vergine al cielo in anima e corpo.", "Quinto Mistero Glorioso: L'incoronazione di Maria Santissima Regina del cielo e della terra."]}}, "stepGenerazioneAudioTemporizzati": [{"step": 0, "descrizione": "Alternanza Rosario (Ave Maria + Santa Maria per Marco, Matteo, Chiara, Sofia)", "stato": "completato", "files": ["ave-maria-marco.mp3", "santa-maria-marco.mp3", "ave-maria-matteo.mp3", "santa-maria-matteo.mp3", "ave-maria-chiara.mp3", "santa-maria-chiara.mp3", "ave-maria-sofia.mp3", "santa-maria-sofia.mp3"]}, {"step": 1, "descrizione": "Alternanza Coroncina (Passione + Misericordia per tutte e 4 le voci) + Preghiere Guida Rosario & Coroncina di Marco", "stato": "completato", "files": ["passione-marco.mp3", "misericordia-marco.mp3", "passione-matteo.mp3", "misericordia-matteo.mp3", "passione-chiara.mp3", "misericordia-chiara.mp3", "passione-sofia.mp3", "misericordia-sofia.mp3", "segno-della-croce-marco.mp3", "credo-marco.mp3", "padre-nostro-marco.mp3", "gloria-marco.mp3", "preghiera-di-fatima-marco.mp3", "salve-regina-marco.mp3", "orazione-finale-marco.mp3", "coroncina-inizio-marco.mp3", "eterno-padre-marco.mp3"]}, {"step": 2, "descrizione": "Completamento Coroncina/Altre Preghiere di Marco + Preghiere Guida Rosario di Matteo", "stato": "completato", "files": ["santo-dio-marco.mp3", "orazione-coroncina-marco.mp3", "eterno-riposo-marco.mp3", "segno-della-croce-matteo.mp3", "credo-matteo.mp3", "padre-nostro-matteo.mp3", "gloria-matteo.mp3", "preghiera-di-fatima-matteo.mp3", "salve-regina-matteo.mp3", "orazione-finale-matteo.mp3"]}, {"step": 3, "descrizione": "Preghiere Coroncina di Matteo + Preghiere Guida Rosario di Chiara", "stato": "completato", "files": ["coroncina-inizio-matteo.mp3", "eterno-padre-matteo.mp3", "santo-dio-matteo.mp3", "orazione-coroncina-matteo.mp3", "segno-della-croce-chiara.mp3", "credo-chiara.mp3", "padre-nostro-chiara.mp3", "gloria-chiara.mp3", "preghiera-di-fatima-chiara.mp3", "salve-regina-chiara.mp3"]}, {"step": 4, "descrizione": "Completamento Chiara + Preghiere Guida Rosario e Coroncina di Sofia", "stato": "completato", "files": ["orazione-finale-chiara.mp3", "coroncina-inizio-chiara.mp3", "eterno-padre-chiara.mp3", "santo-dio-chiara.mp3", "orazione-coroncina-chiara.mp3", "segno-della-croce-sofia.mp3", "credo-sofia.mp3", "padre-nostro-sofia.mp3", "gloria-sofia.mp3", "preghiera-di-fatima-sofia.mp3"]}, {"step": 5, "descrizione": "Completamento Sofia + Altre Preghiere", "stato": "completato", "files": ["salve-regina-sofia.mp3", "orazione-finale-sofia.mp3", "coroncina-inizio-sofia.mp3", "eterno-padre-sofia.mp3", "santo-dio-sofia.mp3", "orazione-coroncina-sofia.mp3", "eterno-riposo-matteo.mp3", "eterno-riposo-chiara.mp3", "eterno-riposo-sofia.mp3"]}], "dedicaPieDiPagina": "Per la Gloria di Dio, Padre, Figlio e Spirito Santo e in onore della Madre di Dio la Vergine Immacolata"};
-const EMBEDDED_AUDIO = {};
-const LOCAL_BLOBS = {};
+      <!-- MEDITAZIONE DEL MISTERO -->
+      <div class="meditation-banner" id="meditationBanner" hidden></div>
 
-let state = {
-  activeSchema: null,
-  isPlaying: false,
-  sequence: [],
-  idx: 0,
-  part: 1,
-  timer: null
-};
+      <!-- TESTO DELLA PREGHIERA IN CORSO -->
+      <div class="prayer-parts" id="prayerParts">
+        <div class="prayer-part">
+          <div class="part-text" id="emptyPrompt">
+            Seleziona la preghiera e premi <strong>▶ Play</strong> per iniziare con le 4 voci neurali alternate.
+          </div>
+        </div>
+      </div>
 
-function safeSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
-function safeGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+      <!-- BARRA AVANZAMENTO AUDIO -->
+      <div class="progress-wrap">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="audioProgressFill"></div>
+        </div>
+        <div class="progress-times">
+          <span id="audioTimeCur">0:00</span>
+          <span id="overallProgressText">0 / 0</span>
+          <span id="audioTimeDur">0:00</span>
+        </div>
+      </div>
 
-function setTheme(theme) {
-  document.documentElement.setAttribute("data-theme", theme);
-  ["light", "sepia", "dark"].forEach(t => {
-    const b = document.getElementById("th-" + t);
-    if (b) b.classList.toggle("active", t === theme);
-  });
-  safeSet("rosario_theme", theme);
-}
+      <!-- CONTROLLI TRASPORTO -->
+      <div class="transport-bar">
+        <button type="button" class="ctrl-btn" id="btnPrev" title="Passo precedente (←)" aria-label="Precedente">⏮</button>
+        <button type="button" class="ctrl-btn primary" id="btnMainPlay" title="Play / Pausa (Spazio)">▶ Inizia</button>
+        <button type="button" class="ctrl-btn" id="btnStop" title="Ferma e azzera (Esc)" aria-label="Ferma">■</button>
+        <button type="button" class="ctrl-btn" id="btnNext" title="Passo successivo (→)" aria-label="Successivo">⏭</button>
+      </div>
+    </section>
 
-window.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = safeGet("rosario_theme") || "sepia";
-  setTheme(savedTheme);
+    <!-- SELEZIONE 4 VOCI NEURALI -->
+    <section class="voices-section" aria-label="Le 4 voci neurali">
+      <div class="voices-columns">
+        <div>
+          <h2 class="voice-group-label">Voci Maschili</h2>
+          <div class="voice-stack">
+            <div class="voice-card" id="card-schema1" data-voice-id="marco">
+              <div class="voice-meta">
+                <span class="voice-avatar" aria-hidden="true">M</span>
+                <div>
+                  <div class="voice-name">
+                    Marco
+                    <span class="wave" aria-hidden="true"><span></span><span></span><span></span></span>
+                  </div>
+                  <div class="voice-desc">Guida · alterna con Chiara e Sofia</div>
+                </div>
+              </div>
+              <button type="button" class="voice-play-btn" id="btn-schema1" data-schema="schema1">▶ Play</button>
+            </div>
 
-  const day = new Date().getDay();
-  const selM = document.getElementById("selMisteri");
-  if (day === 1 || day === 6) selM.value = "gaudiosi";
-  else if (day === 4) selM.value = "luminosi";
-  else if (day === 2 || day === 5) selM.value = "dolorosi";
-  else selM.value = "gloriosi";
+            <div class="voice-card" id="card-schema2" data-voice-id="matteo">
+              <div class="voice-meta">
+                <span class="voice-avatar" aria-hidden="true">M</span>
+                <div>
+                  <div class="voice-name">
+                    Matteo
+                    <span class="wave" aria-hidden="true"><span></span><span></span><span></span></span>
+                  </div>
+                  <div class="voice-desc">Guida · alterna con Chiara e Sofia</div>
+                </div>
+              </div>
+              <button type="button" class="voice-play-btn" id="btn-schema2" data-schema="schema2">▶ Play</button>
+            </div>
+          </div>
+        </div>
 
-  const saved = safeGet("rosario_minimal_schema");
-  if (saved && SCHEMA_DATA.schemiSelezione[saved]) {
-    state.activeSchema = saved;
-  }
-});
+        <div>
+          <h2 class="voice-group-label">Voci Femminili</h2>
+          <div class="voice-stack">
+            <div class="voice-card" id="card-schema3" data-voice-id="chiara">
+              <div class="voice-meta">
+                <span class="voice-avatar" aria-hidden="true">C</span>
+                <div>
+                  <div class="voice-name">
+                    Chiara
+                    <span class="wave" aria-hidden="true"><span></span><span></span><span></span></span>
+                  </div>
+                  <div class="voice-desc">Guida · alterna con Marco e Matteo</div>
+                </div>
+              </div>
+              <button type="button" class="voice-play-btn" id="btn-schema3" data-schema="schema3">▶ Play</button>
+            </div>
 
-function onModeChange() {
-  const mode = document.getElementById("selMode").value;
-  const showMisteri = mode === "rosario_completo" || mode === "rosario_decina";
-  document.getElementById("misteriRow").style.display = showMisteri ? "flex" : "none";
+            <div class="voice-card" id="card-schema4" data-voice-id="sofia">
+              <div class="voice-meta">
+                <span class="voice-avatar" aria-hidden="true">S</span>
+                <div>
+                  <div class="voice-name">
+                    Sofia
+                    <span class="wave" aria-hidden="true"><span></span><span></span><span></span></span>
+                  </div>
+                  <div class="voice-desc">Guida · alterna con Marco e Matteo</div>
+                </div>
+              </div>
+              <button type="button" class="voice-play-btn" id="btn-schema4" data-schema="schema4">▶ Play</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  if (state.activeSchema) {
-    const wasPlaying = state.isPlaying;
-    stopAll();
-    buildSequence(state.activeSchema);
-    if (wasPlaying) {
-      state.isPlaying = true;
-      updateButtonsUI();
-      playCurrent();
-    }
-  }
-}
+    <!-- SCALETTA COMPLETA COLLASSABILE -->
+    <section class="card schedule-panel" id="schedulePanel" aria-label="Scaletta completa della preghiera">
+      <div class="select-row" style="justify-content: space-between;">
+        <span class="select-label">Scaletta completa (tocca per saltare)</span>
+        <button type="button" class="chip" id="btnCloseSchedule">Chiudi</button>
+      </div>
+      <div class="schedule-list" id="scheduleList"></div>
+    </section>
 
-function buildSequence(schemaId) {
-  const sc = SCHEMA_DATA.schemiSelezione[schemaId];
-  const vGuida = sc.voceGuida;
-  const vOpposta = sc.vociAlternanzaDecine[0];
-  const mode = document.getElementById("selMode").value;
-  const seq = [];
+    <!-- STRUMENTI RAPIDI -->
+    <nav class="footer-tools" aria-label="Strumenti e risorse">
+      <button type="button" id="btnToggleSchedule">Mostra scaletta</button>
+      <button type="button" id="btnExportJSON">Esporta JSON</button>
+      <button type="button" id="btnExportCSV">Esporta CSV</button>
+      <label>Importa JSON<input type="file" id="inpImportJSON" accept=".json" hidden /></label>
+      <label>Carica MP3 locali<input type="file" id="inpLoadMP3" accept="audio/*" multiple hidden /></label>
+      <a href="https://github.com/workexperiment927-dot/Rosario4vociNeural/releases/latest" target="_blank" rel="noopener noreferrer">APK Android</a>
+    </nav>
 
-  const addGuida = (pKey, titleOverride) => {
-    const p = SCHEMA_DATA.preghiereGuida[pKey];
-    if (!p) return;
-    seq.push({
-      title: titleOverride || p.titolo,
-      bead: null,
-      p1: { voice: vGuida, text: p.testo, file: `${pKey}-${vGuida}.mp3` },
-      p2: null
-    });
-  };
+    <footer class="dedica-footer">
+      <div class="dedica-ornament" aria-hidden="true">✦ ✝ ✦</div>
+      Per la Gloria di Dio, Padre, Figlio e Spirito Santo e in onore della Madre di Dio la Vergine Immacolata
+    </footer>
+  </main>
 
-  if (mode === "rosario_completo" || mode === "rosario_decina") {
-    const mKey = document.getElementById("selMisteri").value;
-    const mList = SCHEMA_DATA.misteriRosario[mKey].elenco;
-    const numDecine = mode === "rosario_completo" ? 5 : 1;
+  <audio id="audioPlayer" preload="auto"></audio>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    addGuida("segno-della-croce", "Segno della Croce");
-    addGuida("credo", "Credo Apostolico");
-
-    for (let d = 0; d < numDecine; d++) {
-      seq.push({
-        title: `${d + 1}° Mistero · Padre Nostro`,
-        bead: 0,
-        p1: {
-          voice: vGuida,
-          text: mList[d] + " " + SCHEMA_DATA.preghiereGuida["padre-nostro"].testo,
-          file: `padre-nostro-${vGuida}.mp3`
-        },
-        p2: null
-      });
-
-      sc.sequenzaDecina10Grani.forEach(g => {
-        seq.push({
-          title: `${d + 1}° Mistero · Ave Maria (${g.grano}/10)`,
-          bead: g.grano,
-          p1: {
-            voice: g.inizio,
-            text: SCHEMA_DATA.preghiereAlternanzaDecine["ave-maria"].testo,
-            file: `ave-maria-${g.inizio}.mp3`
-          },
-          p2: {
-            voice: g.risposta,
-            text: SCHEMA_DATA.preghiereAlternanzaDecine["santa-maria"].testo,
-            file: `santa-maria-${g.risposta}.mp3`
-          }
-        });
-      });
-
-      addGuida("gloria", `Gloria al Padre (${d + 1}° Mistero)`);
-      addGuida("preghiera-di-fatima", `Preghiera di Fatima (${d + 1}° Mistero)`);
-    }
-
-    addGuida("salve-regina", "Salve Regina");
-    addGuida("orazione-finale", "Orazione Finale");
-  } else if (mode === "coroncina") {
-    addGuida("segno-della-croce", "Segno della Croce");
-    addGuida("coroncina-inizio", "Preghiera Iniziale della Coroncina");
-    addGuida("padre-nostro", "Padre Nostro");
-    seq.push({
-      title: "Ave Maria",
-      bead: null,
-      p1: {
-        voice: vGuida,
-        text: SCHEMA_DATA.preghiereAlternanzaDecine["ave-maria"].testo,
-        file: `ave-maria-${vGuida}.mp3`
-      },
-      p2: {
-        voice: vGuida,
-        text: SCHEMA_DATA.preghiereAlternanzaDecine["santa-maria"].testo,
-        file: `santa-maria-${vGuida}.mp3`
-      }
-    });
-    addGuida("credo", "Credo Apostolico");
-
-    for (let d = 0; d < 5; d++) {
-      seq.push({
-        title: `${d + 1}ª Decina · Eterno Padre`,
-        bead: 0,
-        p1: {
-          voice: vGuida,
-          text: SCHEMA_DATA.preghiereGuida["eterno-padre"].testo,
-          file: `eterno-padre-${vGuida}.mp3`
-        },
-        p2: null
-      });
-      sc.sequenzaDecina10Grani.forEach(g => {
-        seq.push({
-          title: `${d + 1}ª Decina · Dolorosa Passione (${g.grano}/10)`,
-          bead: g.grano,
-          p1: {
-            voice: g.inizio,
-            text: SCHEMA_DATA.preghiereAlternanzaDecine["passione"].testo,
-            file: `passione-${g.inizio}.mp3`
-          },
-          p2: {
-            voice: g.risposta,
-            text: SCHEMA_DATA.preghiereAlternanzaDecine["misericordia"].testo,
-            file: `misericordia-${g.risposta}.mp3`
-          }
-        });
-      });
-    }
-
-    for (let t = 1; t <= 3; t++) {
-      addGuida("santo-dio", `Santo Dio (${t}/3)`);
-    }
-    addGuida("orazione-coroncina", "Orazione Conclusiva della Coroncina");
-  } else if (mode.startsWith("single:")) {
-    const pKey = mode.split(":")[1];
-    addGuida(pKey);
-  } else if (mode === "pair:ave-maria") {
-    seq.push({
-      title: "Ave Maria",
-      bead: null,
-      p1: {
-        voice: vGuida,
-        text: SCHEMA_DATA.preghiereAlternanzaDecine["ave-maria"].testo,
-        file: `ave-maria-${vGuida}.mp3`
-      },
-      p2: {
-        voice: vOpposta,
-        text: SCHEMA_DATA.preghiereAlternanzaDecine["santa-maria"].testo,
-        file: `santa-maria-${vOpposta}.mp3`
-      }
-    });
-  } else if (mode === "pair:passione") {
-    seq.push({
-      title: "Per la Sua dolorosa Passione",
-      bead: null,
-      p1: {
-        voice: vGuida,
-        text: SCHEMA_DATA.preghiereAlternanzaDecine["passione"].testo,
-        file: `passione-${vGuida}.mp3`
-      },
-      p2: {
-        voice: vOpposta,
-        text: SCHEMA_DATA.preghiereAlternanzaDecine["misericordia"].testo,
-        file: `misericordia-${vOpposta}.mp3`
-      }
-    });
-  }
-
-  state.sequence = seq;
-  state.idx = 0;
-  state.part = 1;
-  renderBeadsDots(null);
-}
-
-function renderBeadsDots(activeBead) {
-  const box = document.getElementById("beadsMini");
-  if (activeBead === null || activeBead === undefined) {
-    box.style.display = "none";
-    return;
-  }
-  box.style.display = "flex";
-  let html = "";
-  for (let i = 1; i <= 10; i++) {
-    html += `<span class="b-dot${i === activeBead ? ' active' : ''}"></span>`;
-  }
-  box.innerHTML = html;
-}
-
-function toggleVoiceSchema(schemaId) {
-  if (state.activeSchema === schemaId && state.isPlaying) {
-    state.isPlaying = false;
-    clearTimeout(state.timer);
-    document.getElementById("audioPlayer").pause();
-    if (window.speechSynthesis) window.speechSynthesis.cancel();
-    updateButtonsUI();
-    return;
-  }
-
-  if (state.activeSchema !== schemaId || state.sequence.length === 0) {
-    stopAll();
-    state.activeSchema = schemaId;
-    safeSet("rosario_minimal_schema", schemaId);
-    buildSequence(schemaId);
-  }
-
-  state.isPlaying = true;
-  updateButtonsUI();
-  playCurrent();
-}
-
-function updateButtonsUI() {
-  ["schema1", "schema2", "schema3", "schema4"].forEach(id => {
-    const row = document.getElementById("row-" + id);
-    const btn = document.getElementById("btn-" + id);
-    const active = state.activeSchema === id && state.isPlaying;
-    row.classList.toggle("playing", active);
-    if (state.activeSchema === id && !state.isPlaying && state.sequence.length > 0 && state.idx > 0) {
-      btn.textContent = "▶ Riprendi";
-    } else {
-      btn.textContent = active ? "⏸ Pausa" : "▶ Play";
-    }
-  });
-}
-
-const SUPABASE_URL = "https://prolgfrevlxzdvmgvkxw.supabase.co";
-const SUPABASE_KEY = "sb_publishable_Yri46QBlFg9YjpOR2l9fSQ__UY6LKkQ";
-const SUPABASE_AUDIO_BASE = SUPABASE_URL + "/storage/v1/object/public/rosario-4-voci/";
-
-function getSrc(fname) {
-  if (LOCAL_BLOBS[fname]) return LOCAL_BLOBS[fname];
-  if (EMBEDDED_AUDIO[fname]) return EMBEDDED_AUDIO[fname];
-  return SUPABASE_AUDIO_BASE + encodeURIComponent(fname);
-}
-
-function playCurrent() {
-  if (!state.isPlaying) return;
-  clearTimeout(state.timer);
-  const item = state.sequence[state.idx];
-  if (!item) {
-    stopAll();
-    return;
-  }
-
-  const partObj = state.part === 2 && item.p2 ? item.p2 : item.p1;
-  const vName = SCHEMA_DATA.vociSelezionate[partObj.voice].nome;
-  document.getElementById("statusTitle").textContent = `${item.title} · Voce: ${vName}`;
-  document.getElementById("statusText").textContent = partObj.text;
-  renderBeadsDots(item.bead);
-
-  const player = document.getElementById("audioPlayer");
-  player.onended = null;
-  player.onerror = null;
-  player.src = getSrc(partObj.file);
-  player.onended = () => nextTimed();
-  player.onerror = () => speakFallback(partObj);
-  player.play().catch(() => speakFallback(partObj));
-}
-
-function speakFallback(partObj) {
-  if (!state.isPlaying) return;
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(partObj.text);
-    u.lang = "it-IT";
-    u.onend = () => nextTimed();
-    u.onerror = () => nextTimed();
-    window.speechSynthesis.speak(u);
-  } else {
-    nextTimed();
-  }
-}
-
-function nextTimed() {
-  if (!state.isPlaying) return;
-  const item = state.sequence[state.idx];
-  const pausePart = SCHEMA_DATA.impostazioniTemporizzazione.pausaTraPrimaESecondaParteMs || 600;
-  const pauseStep = SCHEMA_DATA.impostazioniTemporizzazione.pausaTraGraniDecinaMs || 1200;
-
-  if (state.part === 1 && item.p2) {
-    state.timer = setTimeout(() => {
-      state.part = 2;
-      playCurrent();
-    }, pausePart);
-  } else {
-    state.timer = setTimeout(() => {
-      if (state.idx + 1 < state.sequence.length) {
-        state.idx++;
-        state.part = 1;
-        playCurrent();
-      } else {
-        stopAll();
-      }
-    }, pauseStep);
-  }
-}
-
-function stopAll() {
-  state.isPlaying = false;
-  clearTimeout(state.timer);
-  const player = document.getElementById("audioPlayer");
-  player.pause();
-  player.currentTime = 0;
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-  state.idx = 0;
-  state.part = 1;
-  document.getElementById("statusTitle").textContent = "Pronto all'ascolto";
-  document.getElementById("statusText").textContent = "Scegli la preghiera e premi Play accanto al nome desiderato.";
-  renderBeadsDots(null);
-  updateButtonsUI();
-}
-
-function stepPrev() {
-  if (!state.sequence.length) return;
-  if (state.idx > 0) {
-    state.idx--;
-    state.part = 1;
-    if (state.isPlaying) playCurrent();
-    else {
-      const item = state.sequence[state.idx];
-      document.getElementById("statusTitle").textContent = item.title;
-      document.getElementById("statusText").textContent = item.p1.text;
-      renderBeadsDots(item.bead);
-    }
-  }
-}
-
-function stepNext() {
-  if (!state.sequence.length) return;
-  if (state.idx + 1 < state.sequence.length) {
-    state.idx++;
-    state.part = 1;
-    if (state.isPlaying) playCurrent();
-    else {
-      const item = state.sequence[state.idx];
-      document.getElementById("statusTitle").textContent = item.title;
-      document.getElementById("statusText").textContent = item.p1.text;
-      renderBeadsDots(item.bead);
-    }
-  }
-}
-
-function exportJSON() {
-  const b = new Blob([JSON.stringify(SCHEMA_DATA, null, 2)], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(b);
-  a.download = "schema-preghiere-istruzioni.json";
-  a.click();
-}
-
-function exportCSV() {
-  const scId = state.activeSchema || "schema1";
-  buildSequence(scId);
-  const rows = [["Passo", "Titolo", "Voce1", "File1", "Voce2", "File2"]];
-  state.sequence.forEach((s, i) => {
-    rows.push([
-      i + 1,
-      `"${s.title}"`,
-      s.p1.voice,
-      s.p1.file,
-      s.p2 ? s.p2.voice : "",
-      s.p2 ? s.p2.file : ""
-    ]);
-  });
-  const b = new Blob([rows.map(r => r.join(",")).join("\\n")], { type: "text/csv" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(b);
-  a.download = "scaletta-rosario.csv";
-  a.click();
-}
-
-function importJSON(ev) {
-  const f = ev.target.files[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = e => {
-    try { Object.assign(SCHEMA_DATA, JSON.parse(e.target.result)); } catch (err) {}
-  };
-  r.readAsText(f);
-}
-
-function loadMP3s(ev) {
-  Array.from(ev.target.files || []).forEach(f => {
-    LOCAL_BLOBS[f.name] = URL.createObjectURL(f);
-  });
-}
-</script>
+  <script src="./app.js"></script>
 </body>
 </html>

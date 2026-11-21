@@ -1,8 +1,11 @@
 {
-  "name": "rosario-guidato-web",
-  "version": "2.0.0",
+  "name": "rosario-4-voci-neural",
+  "version": "2.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "build": "mkdir -p dist && cp web/index.html dist/index.html"
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "build": "node scripts/build-web.mjs"
   }
 }
