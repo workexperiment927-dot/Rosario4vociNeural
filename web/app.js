@@ -55,7 +55,8 @@
     keepAwake: true,
     wakeLock: null,
     deferredInstallPrompt: null,
-    audioFallbackAttempted: false
+    audioFallbackAttempted: false,
+    preferSupabaseAudio: false
   };
 
   // DOM refs
@@ -168,7 +169,7 @@
 
   function getPrimaryAudioUrl(fname) {
     if (LOCAL_BLOBS[fname]) return LOCAL_BLOBS[fname];
-    if (window.location.protocol === 'file:') {
+    if (window.location.protocol === 'file:' || state.preferSupabaseAudio) {
       return SUPABASE_AUDIO_BASE + encodeURIComponent(fname);
     }
     return `./audio/${encodeURIComponent(fname)}`;
@@ -639,8 +640,14 @@
     player.playbackRate = state.speed;
     player.onended = () => nextTimed();
     player.onerror = () => {
-      if (!state.audioFallbackAttempted && window.location.protocol !== 'file:' && !LOCAL_BLOBS[partObj.file]) {
+      if (
+        !state.audioFallbackAttempted &&
+        window.location.protocol !== 'file:' &&
+        !state.preferSupabaseAudio &&
+        !LOCAL_BLOBS[partObj.file]
+      ) {
         state.audioFallbackAttempted = true;
+        state.preferSupabaseAudio = true;
         player.src = getFallbackAudioUrl(partObj.file);
         player.playbackRate = state.speed;
         player.play().catch(() => speakFallback(partObj));

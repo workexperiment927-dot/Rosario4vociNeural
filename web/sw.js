@@ -8,13 +8,15 @@ const SHELL_ASSETS = [
   '/app.js',
   '/schema-preghiere-istruzioni.json',
   '/manifest.webmanifest',
-  '/icon.svg',
-  '/icon-192.png'
+  '/icon.svg'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_SHELL).then((cache) => cache.addAll(SHELL_ASSETS)).then(() => self.skipWaiting())
+    caches
+      .open(CACHE_SHELL)
+      .then((cache) => Promise.allSettled(SHELL_ASSETS.map((u) => cache.add(u))))
+      .then(() => self.skipWaiting())
   );
 });
 
