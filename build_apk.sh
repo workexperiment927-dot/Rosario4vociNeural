@@ -29,11 +29,22 @@ fi
 build_variant() {
   local HTML_SOURCE="$1"
   local OUTPUT_APK="$2"
+  local COPY_WEB_ASSETS="${3:-0}"
   local WORK_DIR="/tmp/apk-build-$(basename "$OUTPUT_APK" .apk)"
   rm -rf "$WORK_DIR"
   mkdir -p "$WORK_DIR/gen" "$WORK_DIR/obj" "$WORK_DIR/dex" "$WORK_DIR/assets"
 
   cp "$HTML_SOURCE" "$WORK_DIR/assets/index.html"
+  if [ "$COPY_WEB_ASSETS" = "1" ]; then
+    for asset in styles.css app.js icon.svg schema-preghiere-istruzioni.json; do
+      if [ -f "$SCRIPT_DIR/web/$asset" ]; then
+        cp "$SCRIPT_DIR/web/$asset" "$WORK_DIR/assets/$asset"
+      fi
+    done
+    if [ -f "$SCRIPT_DIR/android-src/res/drawable/ic_launcher.png" ]; then
+      cp "$SCRIPT_DIR/android-src/res/drawable/ic_launcher.png" "$WORK_DIR/assets/icon-192.png"
+    fi
+  fi
 
   # 1. Generate R.java
   "$BUILD_TOOLS/aapt" package -f -m \
@@ -83,9 +94,9 @@ build_variant() {
 }
 
 echo "Building Cloud APK (Supabase CDN Streaming)..."
-build_variant "$SCRIPT_DIR/web/index.html" "$SCRIPT_DIR/Rosario-Guidato-4-Voci.apk"
+build_variant "$SCRIPT_DIR/web/index.html" "$SCRIPT_DIR/Rosario-Guidato-4-Voci.apk" 1
 
 echo "Building Offline APK (All 65 MP3s Embedded)..."
-build_variant "$SCRIPT_DIR/web/rosario-coroncina-app.html" "$SCRIPT_DIR/Rosario-Guidato-4-Voci-Offline.apk"
+build_variant "$SCRIPT_DIR/web/rosario-coroncina-app.html" "$SCRIPT_DIR/Rosario-Guidato-4-Voci-Offline.apk" 0
 
 rm -f "$SCRIPT_DIR"/Rosario-Guidato-4-Voci*.apk.idsig
