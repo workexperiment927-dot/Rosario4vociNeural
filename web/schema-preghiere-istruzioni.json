@@ -1,0 +1,596 @@
+{
+  "progetto": "Santo Rosario, Coroncina alla Divina Misericordia e Preghiere Tradizionali",
+  "versione": "2.0.0",
+  "dataAggiornamento": "2026-11-20",
+  "impostazioniTemporizzazione": {
+    "pausaTraPrimaESecondaParteMs": 600,
+    "pausaTraGraniDecinaMs": 1200,
+    "pausaDopoMisteroMs": 1800,
+    "pausaDopoGloriaMs": 1000,
+    "velocitaRiproduzione": 1.0
+  },
+  "vociSelezionate": {
+    "marco": {
+      "id": "marco",
+      "nome": "Marco",
+      "ruolo": "Maschile 1",
+      "genere": "masculine",
+      "opzioneScelta": "Opzione 1",
+      "voiceId": "voice-10",
+      "provinoRiferimento": "marco-opzione-1.mp3",
+      "suffissoFile": "marco"
+    },
+    "matteo": {
+      "id": "matteo",
+      "nome": "Matteo",
+      "ruolo": "Maschile 2",
+      "genere": "masculine",
+      "opzioneScelta": "Opzione 4",
+      "voiceId": "voice-14",
+      "provinoRiferimento": "matteo-opzione-4.mp3",
+      "suffissoFile": "matteo"
+    },
+    "chiara": {
+      "id": "chiara",
+      "nome": "Chiara",
+      "ruolo": "Femminile 1",
+      "genere": "feminine",
+      "opzioneScelta": "Opzione 1",
+      "voiceId": "voice-16",
+      "provinoRiferimento": "chiara-opzione-1.mp3",
+      "suffissoFile": "chiara"
+    },
+    "sofia": {
+      "id": "sofia",
+      "nome": "Sofia",
+      "ruolo": "Femminile 2",
+      "genere": "feminine",
+      "opzioneScelta": "Opzione 4",
+      "voiceId": "voice-02",
+      "provinoRiferimento": "sofia-opzione-4.mp3",
+      "suffissoFile": "sofia"
+    }
+  },
+  "schemiSelezione": {
+    "schema1": {
+      "id": "schema1",
+      "etichettaSelettore": "Marco (Maschile 1 - Opzione 1)",
+      "voceGuida": "marco",
+      "vociAlternanzaDecine": [
+        "chiara",
+        "sofia"
+      ],
+      "descrizione": "Marco fa da Voce Guida a tutte le preghiere; nelle decine di Rosario e Coroncina si alterna uno sì e uno no con Chiara e Sofia.",
+      "sequenzaDecina10Grani": [
+        {
+          "grano": 1,
+          "inizio": "marco",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 2,
+          "inizio": "chiara",
+          "risposta": "marco"
+        },
+        {
+          "grano": 3,
+          "inizio": "marco",
+          "risposta": "sofia"
+        },
+        {
+          "grano": 4,
+          "inizio": "sofia",
+          "risposta": "marco"
+        },
+        {
+          "grano": 5,
+          "inizio": "marco",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 6,
+          "inizio": "chiara",
+          "risposta": "marco"
+        },
+        {
+          "grano": 7,
+          "inizio": "marco",
+          "risposta": "sofia"
+        },
+        {
+          "grano": 8,
+          "inizio": "sofia",
+          "risposta": "marco"
+        },
+        {
+          "grano": 9,
+          "inizio": "marco",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 10,
+          "inizio": "chiara",
+          "risposta": "marco"
+        }
+      ]
+    },
+    "schema2": {
+      "id": "schema2",
+      "etichettaSelettore": "Matteo (Maschile 2 - Opzione 4)",
+      "voceGuida": "matteo",
+      "vociAlternanzaDecine": [
+        "chiara",
+        "sofia"
+      ],
+      "descrizione": "Matteo fa da Voce Guida a tutte le preghiere; nelle decine di Rosario e Coroncina si alterna uno sì e uno no con Chiara e Sofia.",
+      "sequenzaDecina10Grani": [
+        {
+          "grano": 1,
+          "inizio": "matteo",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 2,
+          "inizio": "chiara",
+          "risposta": "matteo"
+        },
+        {
+          "grano": 3,
+          "inizio": "matteo",
+          "risposta": "sofia"
+        },
+        {
+          "grano": 4,
+          "inizio": "sofia",
+          "risposta": "matteo"
+        },
+        {
+          "grano": 5,
+          "inizio": "matteo",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 6,
+          "inizio": "chiara",
+          "risposta": "matteo"
+        },
+        {
+          "grano": 7,
+          "inizio": "matteo",
+          "risposta": "sofia"
+        },
+        {
+          "grano": 8,
+          "inizio": "sofia",
+          "risposta": "matteo"
+        },
+        {
+          "grano": 9,
+          "inizio": "matteo",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 10,
+          "inizio": "chiara",
+          "risposta": "matteo"
+        }
+      ]
+    },
+    "schema3": {
+      "id": "schema3",
+      "etichettaSelettore": "Chiara (Femminile 1 - Opzione 1)",
+      "voceGuida": "chiara",
+      "vociAlternanzaDecine": [
+        "marco",
+        "matteo"
+      ],
+      "descrizione": "Chiara fa da Voce Guida a tutte le preghiere; nelle decine di Rosario e Coroncina si alterna uno sì e uno no con Marco e Matteo.",
+      "sequenzaDecina10Grani": [
+        {
+          "grano": 1,
+          "inizio": "chiara",
+          "risposta": "marco"
+        },
+        {
+          "grano": 2,
+          "inizio": "marco",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 3,
+          "inizio": "chiara",
+          "risposta": "matteo"
+        },
+        {
+          "grano": 4,
+          "inizio": "matteo",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 5,
+          "inizio": "chiara",
+          "risposta": "marco"
+        },
+        {
+          "grano": 6,
+          "inizio": "marco",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 7,
+          "inizio": "chiara",
+          "risposta": "matteo"
+        },
+        {
+          "grano": 8,
+          "inizio": "matteo",
+          "risposta": "chiara"
+        },
+        {
+          "grano": 9,
+          "inizio": "chiara",
+          "risposta": "marco"
+        },
+        {
+          "grano": 10,
+          "inizio": "marco",
+          "risposta": "chiara"
+        }
+      ]
+    },
+    "schema4": {
+      "id": "schema4",
+      "etichettaSelettore": "Sofia (Femminile 2 - Opzione 4)",
+      "voceGuida": "sofia",
+      "vociAlternanzaDecine": [
+        "marco",
+        "matteo"
+      ],
+      "descrizione": "Sofia fa da Voce Guida a tutte le preghiere; nelle decine di Rosario e Coroncina si alterna uno sì e uno no con Marco e Matteo.",
+      "sequenzaDecina10Grani": [
+        {
+          "grano": 1,
+          "inizio": "sofia",
+          "risposta": "marco"
+        },
+        {
+          "grano": 2,
+          "inizio": "marco",
+          "risposta": "sofia"
+        },
+        {
+          "grano": 3,
+          "inizio": "sofia",
+          "risposta": "matteo"
+        },
+        {
+          "grano": 4,
+          "inizio": "matteo",
+          "risposta": "sofia"
+        },
+        {
+          "grano": 5,
+          "inizio": "sofia",
+          "risposta": "marco"
+        },
+        {
+          "grano": 6,
+          "inizio": "marco",
+          "risposta": "sofia"
+        },
+        {
+          "grano": 7,
+          "inizio": "sofia",
+          "risposta": "matteo"
+        },
+        {
+          "grano": 8,
+          "inizio": "matteo",
+          "risposta": "sofia"
+        },
+        {
+          "grano": 9,
+          "inizio": "sofia",
+          "risposta": "marco"
+        },
+        {
+          "grano": 10,
+          "inizio": "marco",
+          "risposta": "sofia"
+        }
+      ]
+    }
+  },
+  "preghiereAlternanzaDecine": {
+    "ave-maria": {
+      "titolo": "Ave Maria (1ª Parte)",
+      "templateFile": "ave-maria-{voce}.mp3",
+      "testo": "Ave o Maria, piena di grazia, il Signore è con te. Tu sei benedetta fra le donne e benedetto è il frutto del tuo seno, Gesù."
+    },
+    "santa-maria": {
+      "titolo": "Santa Maria (2ª Parte)",
+      "templateFile": "santa-maria-{voce}.mp3",
+      "testo": "Santa Maria, Madre di Dio, prega per noi peccatori, adesso e nell'ora della nostra morte. Amen."
+    },
+    "passione": {
+      "titolo": "Dolorosa Passione (1ª Parte Coroncina)",
+      "templateFile": "passione-{voce}.mp3",
+      "testo": "Per la Sua dolorosa Passione,"
+    },
+    "misericordia": {
+      "titolo": "Abbi Misericordia (2ª Parte Coroncina)",
+      "templateFile": "misericordia-{voce}.mp3",
+      "testo": "abbi misericordia di noi e del mondo intero."
+    }
+  },
+  "preghiereGuida": {
+    "segno-della-croce": {
+      "categoria": "rosario",
+      "titolo": "Segno della Croce e Invocazione",
+      "templateFile": "segno-della-croce-{voce}.mp3",
+      "testo": "Nel nome del Padre e del Figlio e dello Spirito Santo. Amen. O Dio vieni a salvarmi. Signore vieni presto in mio aiuto."
+    },
+    "credo": {
+      "categoria": "rosario",
+      "titolo": "Credo Apostolico",
+      "templateFile": "credo-{voce}.mp3",
+      "testo": "Io credo in Dio, Padre onnipotente, creatore del cielo e della terra; e in Gesù Cristo, suo unico Figlio, nostro Signore, il quale fu concepito di Spirito Santo, nacque da Maria Vergine, patì sotto Ponzio Pilato, fu crocifisso, morì e fu sepolto; discese agli inferi; il terzo giorno risuscitò da morte; salì al cielo, siede alla destra di Dio Padre onnipotente; di là verrà a giudicare i vivi e i morti. Credo nello Spirito Santo, la santa Chiesa cattolica, la comunione dei santi, la remissione dei peccati, la risurrezione della carne, la vita eterna. Amen."
+    },
+    "padre-nostro": {
+      "categoria": "rosario",
+      "titolo": "Padre Nostro",
+      "templateFile": "padre-nostro-{voce}.mp3",
+      "testo": "Padre nostro che sei nei cieli, sia santificato il tuo nome, venga il tuo regno, sia fatta la tua volontà come in cielo così in terra. Dacci oggi il nostro pane quotidiano, e rimetti a noi i nostri debiti come anche noi li rimettiamo ai nostri debitori, e non abbandonarci alla tentazione, ma liberaci dal male. Amen."
+    },
+    "gloria": {
+      "categoria": "rosario",
+      "titolo": "Gloria al Padre",
+      "templateFile": "gloria-{voce}.mp3",
+      "testo": "Gloria al Padre e al Figlio e allo Spirito Santo, come era nel principio, e ora e sempre nei secoli dei secoli. Amen."
+    },
+    "preghiera-di-fatima": {
+      "categoria": "rosario",
+      "titolo": "Preghiera di Fatima (Gesù mio)",
+      "templateFile": "preghiera-di-fatima-{voce}.mp3",
+      "testo": "Gesù mio, perdona le nostre colpe, preservaci dal fuoco dell'inferno, porta in cielo tutte le anime, specialmente le più bisognose della tua misericordia."
+    },
+    "salve-regina": {
+      "categoria": "rosario",
+      "titolo": "Salve Regina",
+      "templateFile": "salve-regina-{voce}.mp3",
+      "testo": "Salve o Regina, Madre di misericordia, vita, dolcezza e speranza nostra, salve. A te ricorriamo, esuli figli di Eva; a te sospiriamo, gementi e piangenti in questa valle di lacrime. Orsù dunque, avvocata nostra, rivolgi a noi gli occhi tuoi misericordiosi. E mostraci, dopo questo esilio, Gesù, il frutto benedetto del tuo seno. O clemente, o pia, o dolce Vergine Maria."
+    },
+    "orazione-finale": {
+      "categoria": "rosario",
+      "titolo": "Orazione Finale del Rosario",
+      "templateFile": "orazione-finale-{voce}.mp3",
+      "testo": "Prega per noi, Santa Madre di Dio. Affinché siamo fatti degni delle promesse di Cristo. Preghiamo. O Dio, il cui unico Figlio, con la sua vita, morte e risurrezione, ci ha procurato i beni della salvezza eterna, concedi a noi, che veneriamo questi misteri nel santo Rosario della Beata Vergine Maria, di imitare ciò che contengono e di raggiungere ciò che promettono. Per Cristo nostro Signore. Amen."
+    },
+    "coroncina-inizio": {
+      "categoria": "coroncina",
+      "titolo": "Preghiera Iniziale della Coroncina",
+      "templateFile": "coroncina-inizio-{voce}.mp3",
+      "testo": "Tu sei spirato, Gesù, ma la sorgente della vita è scaturita per le anime e l'oceano della misericordia si è spalancato per il mondo intero. O Fonte della Vita, insondabile Misericordia Divina, avvolgi il mondo intero e riversati fino all'ultima goccia su di noi. O Sangue e Acqua, che scaturisti dal Cuore di Gesù come sorgente di misericordia per noi, confido in Te."
+    },
+    "eterno-padre": {
+      "categoria": "coroncina",
+      "titolo": "Eterno Padre (Grani Grandi Coroncina)",
+      "templateFile": "eterno-padre-{voce}.mp3",
+      "testo": "Eterno Padre, io Ti offro il Corpo e il Sangue, l'Anima e la Divinità del Tuo dilettissimo Figlio e Signore nostro Gesù Cristo, in espiazione dei nostri peccati e di quelli del mondo intero."
+    },
+    "santo-dio": {
+      "categoria": "coroncina",
+      "titolo": "Santo Dio (Trisagio Coroncina)",
+      "templateFile": "santo-dio-{voce}.mp3",
+      "testo": "Santo Dio, Santo Forte, Santo Immortale, abbi pietà di noi e del mondo intero."
+    },
+    "orazione-coroncina": {
+      "categoria": "coroncina",
+      "titolo": "Orazione Conclusiva della Coroncina",
+      "templateFile": "orazione-coroncina-{voce}.mp3",
+      "testo": "O Dio Eterno, in cui la misericordia è senza fine e il tesoro della compassione è inesauribile, rivolgi a noi uno sguardo benevolo e aumenta in noi la Tua misericordia, affinché nei momenti difficili non ci perdiamo d'animo né ci scoraggiamo, ma con grande fiducia ci sottomettiamo alla Tua santa volontà, che è l'Amore e la Misericordia stessa. Amen. Gesù, confido in Te."
+    },
+    "eterno-riposo": {
+      "categoria": "altre",
+      "titolo": "L'Eterno Riposo",
+      "templateFile": "eterno-riposo-{voce}.mp3",
+      "testo": "L'eterno riposo dona loro, o Signore, e splenda ad essi la luce perpetua. Riposino in pace. Amen."
+    },
+    "angelo-di-dio": {
+      "categoria": "altre",
+      "titolo": "Angelo di Dio",
+      "templateFile": "angelo-di-dio-{voce}.mp3",
+      "testo": "Angelo di Dio, che sei il mio custode, illumina, custodisci, reggi e governa me, che ti fui affidato dalla pietà celeste. Amen."
+    },
+    "angelus": {
+      "categoria": "altre",
+      "titolo": "Angelus",
+      "templateFile": "angelus-{voce}.mp3",
+      "testo": "L'Angelo del Signore portò l'annuncio a Maria. Ed ella concepì per opera dello Spirito Santo. Eccomi, sono la serva del Signore. Si compia in me secondo la tua parola. E il Verbo si fece carne. E venne ad abitare in mezzo a noi. Prega per noi, Santa Madre di Dio. Affinché siamo fatti degni delle promesse di Cristo. Preghiamo. Infondi nel nostro spirito la tua grazia, o Padre; tu che nell'annuncio dell'angelo ci hai rivelato l'incarnazione del tuo Figlio, per la sua passione e la sua croce guidaci alla gloria della risurrezione. Per Cristo nostro Signore. Amen."
+    },
+    "sotto-la-tua-protezione": {
+      "categoria": "altre",
+      "titolo": "Sotto la tua protezione",
+      "templateFile": "sotto-la-tua-protezione-{voce}.mp3",
+      "testo": "Sotto la tua protezione cerchiamo rifugio, Santa Madre di Dio: non disprezzare le suppliche di noi che siamo nella prova, ma liberaci da ogni pericolo, o Vergine gloriosa e benedetta. Amen."
+    },
+    "san-michele": {
+      "categoria": "altre",
+      "titolo": "Preghiera a San Michele Arcangelo",
+      "templateFile": "san-michele-{voce}.mp3",
+      "testo": "San Michele Arcangelo, difendici nella lotta; sii nostro aiuto contro la malvagità e le insidie del demonio. Supplichevoli preghiamo che Dio lo domini e tu, Principe della milizia celeste, con il potere che ti viene da Dio, incatena nell'inferno satana e gli altri spiriti maligni che si aggirano per il mondo per perdere le anime. Amen."
+    },
+    "atto-di-dolore": {
+      "categoria": "altre",
+      "titolo": "Atto di Dolore",
+      "templateFile": "atto-di-dolore-{voce}.mp3",
+      "testo": "Mio Dio, mi pento e mi dolgo con tutto il cuore dei miei peccati, perché peccando ho meritato i tuoi castighi e molto più perché ho offeso te, infinitamente buono e degno di essere amato sopra ogni cosa. Propongo con il tuo santo aiuto di non offenderti mai più e di fuggire le occasioni prossime di peccato. Signore, misericordia, perdonami."
+    }
+  },
+  "misteriRosario": {
+    "gaudiosi": {
+      "titolo": "Misteri Gaudiosi",
+      "giorni": [
+        "Lunedì",
+        "Sabato"
+      ],
+      "elenco": [
+        "Primo Mistero Gaudioso: L'annunciazione dell'Angelo a Maria Vergine.",
+        "Secondo Mistero Gaudioso: La visita di Maria Santissima a Santa Elisabetta.",
+        "Terzo Mistero Gaudioso: La nascita di Gesù nella grotta di Betlemme.",
+        "Quarto Mistero Gaudioso: La presentazione di Gesù al Tempio di Gerusalemme.",
+        "Quinto Mistero Gaudioso: Il ritrovamento di Gesù dodicenne tra i dottori nel Tempio."
+      ]
+    },
+    "luminosi": {
+      "titolo": "Misteri Luminosi",
+      "giorni": [
+        "Giovedì"
+      ],
+      "elenco": [
+        "Primo Mistero Luminoso: Il Battesimo di Gesù nel fiume Giordano.",
+        "Secondo Mistero Luminoso: Le nozze di Cana e il primo miracolo di Gesù.",
+        "Terzo Mistero Luminoso: L'annuncio del Regno di Dio e l'invito alla conversione.",
+        "Quarto Mistero Luminoso: La Trasfigurazione di Gesù sul monte Tabor.",
+        "Quinto Mistero Luminoso: L'istituzione dell'Eucaristia nell'Ultima Cena."
+      ]
+    },
+    "dolorosi": {
+      "titolo": "Misteri Dolorosi",
+      "giorni": [
+        "Martedì",
+        "Venerdì"
+      ],
+      "elenco": [
+        "Primo Mistero Doloroso: L'agonia di Gesù nell'orto del Getsemani.",
+        "Secondo Mistero Doloroso: La flagellazione di Gesù alla colonna.",
+        "Terzo Mistero Doloroso: L'incoronazione di spine.",
+        "Quarto Mistero Doloroso: La salita di Gesù al Calvario carico della croce.",
+        "Quinto Mistero Doloroso: La crocifissione e morte di Gesù sulla croce."
+      ]
+    },
+    "gloriosi": {
+      "titolo": "Misteri Gloriosi",
+      "giorni": [
+        "Mercoledì",
+        "Domenica"
+      ],
+      "elenco": [
+        "Primo Mistero Glorioso: La risurrezione di nostro Signore Gesù Cristo.",
+        "Secondo Mistero Glorioso: L'ascensione di Gesù al cielo.",
+        "Terzo Mistero Glorioso: La discesa dello Spirito Santo nel Cenacolo su Maria e gli Apostoli.",
+        "Quarto Mistero Glorioso: L'assunzione di Maria Vergine al cielo in anima e corpo.",
+        "Quinto Mistero Glorioso: L'incoronazione di Maria Santissima Regina del cielo e della terra."
+      ]
+    }
+  },
+  "stepGenerazioneAudioTemporizzati": [
+    {
+      "step": 0,
+      "descrizione": "Alternanza Rosario (Ave Maria + Santa Maria per Marco, Matteo, Chiara, Sofia)",
+      "stato": "completato",
+      "files": [
+        "ave-maria-marco.mp3",
+        "santa-maria-marco.mp3",
+        "ave-maria-matteo.mp3",
+        "santa-maria-matteo.mp3",
+        "ave-maria-chiara.mp3",
+        "santa-maria-chiara.mp3",
+        "ave-maria-sofia.mp3",
+        "santa-maria-sofia.mp3"
+      ]
+    },
+    {
+      "step": 1,
+      "descrizione": "Alternanza Coroncina (Passione + Misericordia per tutte e 4 le voci) + Preghiere Guida Rosario & Coroncina di Marco",
+      "stato": "completato",
+      "files": [
+        "passione-marco.mp3",
+        "misericordia-marco.mp3",
+        "passione-matteo.mp3",
+        "misericordia-matteo.mp3",
+        "passione-chiara.mp3",
+        "misericordia-chiara.mp3",
+        "passione-sofia.mp3",
+        "misericordia-sofia.mp3",
+        "segno-della-croce-marco.mp3",
+        "credo-marco.mp3",
+        "padre-nostro-marco.mp3",
+        "gloria-marco.mp3",
+        "preghiera-di-fatima-marco.mp3",
+        "salve-regina-marco.mp3",
+        "orazione-finale-marco.mp3",
+        "coroncina-inizio-marco.mp3",
+        "eterno-padre-marco.mp3"
+      ]
+    },
+    {
+      "step": 2,
+      "descrizione": "Completamento Coroncina/Altre Preghiere di Marco + Preghiere Guida Rosario di Matteo",
+      "stato": "completato",
+      "files": [
+        "santo-dio-marco.mp3",
+        "orazione-coroncina-marco.mp3",
+        "eterno-riposo-marco.mp3",
+        "segno-della-croce-matteo.mp3",
+        "credo-matteo.mp3",
+        "padre-nostro-matteo.mp3",
+        "gloria-matteo.mp3",
+        "preghiera-di-fatima-matteo.mp3",
+        "salve-regina-matteo.mp3",
+        "orazione-finale-matteo.mp3"
+      ]
+    },
+    {
+      "step": 3,
+      "descrizione": "Preghiere Coroncina di Matteo + Preghiere Guida Rosario di Chiara",
+      "stato": "completato",
+      "files": [
+        "coroncina-inizio-matteo.mp3",
+        "eterno-padre-matteo.mp3",
+        "santo-dio-matteo.mp3",
+        "orazione-coroncina-matteo.mp3",
+        "segno-della-croce-chiara.mp3",
+        "credo-chiara.mp3",
+        "padre-nostro-chiara.mp3",
+        "gloria-chiara.mp3",
+        "preghiera-di-fatima-chiara.mp3",
+        "salve-regina-chiara.mp3"
+      ]
+    },
+    {
+      "step": 4,
+      "descrizione": "Completamento Chiara + Preghiere Guida Rosario e Coroncina di Sofia",
+      "stato": "completato",
+      "files": [
+        "orazione-finale-chiara.mp3",
+        "coroncina-inizio-chiara.mp3",
+        "eterno-padre-chiara.mp3",
+        "santo-dio-chiara.mp3",
+        "orazione-coroncina-chiara.mp3",
+        "segno-della-croce-sofia.mp3",
+        "credo-sofia.mp3",
+        "padre-nostro-sofia.mp3",
+        "gloria-sofia.mp3",
+        "preghiera-di-fatima-sofia.mp3"
+      ]
+    },
+    {
+      "step": 5,
+      "descrizione": "Completamento Sofia + Altre Preghiere",
+      "stato": "completato",
+      "files": [
+        "salve-regina-sofia.mp3",
+        "orazione-finale-sofia.mp3",
+        "coroncina-inizio-sofia.mp3",
+        "eterno-padre-sofia.mp3",
+        "santo-dio-sofia.mp3",
+        "orazione-coroncina-sofia.mp3",
+        "eterno-riposo-matteo.mp3",
+        "eterno-riposo-chiara.mp3",
+        "eterno-riposo-sofia.mp3"
+      ]
+    }
+  ],
+  "dedicaPieDiPagina": "Per la Gloria di Dio, Padre, Figlio e Spirito Santo e in onore della Madre di Dio la Vergine Immacolata"
+}
