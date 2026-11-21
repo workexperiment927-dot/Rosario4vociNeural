@@ -1,0 +1,52 @@
+name: Compila APK Android - Rosario a 4 Voci
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-apk:
+    name: Build & Sign Android APK (Cloud + Offline)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del codice sorgente
+        uses: actions/checkout@v4
+
+      - name: Configura Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Scarica Android SDK 34 e compila APK firmati
+        run: |
+          chmod +x ./build_apk.sh
+          ./build_apk.sh
+
+      - name: Carica APK negli Artifacts di GitHub Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: Rosario-Guidato-4-Voci-Android-APK
+          path: |
+            Rosario-Guidato-4-Voci.apk
+            Rosario-Guidato-4-Voci-Offline.apk
+          if-no-files-found: ignore
+
+      - name: Pubblica Release su GitHub con file APK allegato
+        if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v2.0.${{ github.run_number }}
+          name: "Rosario Guidato a 4 Voci v2.0.${{ github.run_number }} (APK Android)"
+          body: |
+            ### ✝ Rosario Guidato a 4 Voci (Marco, Matteo, Chiara, Sofia)
+            APK Android (Cloud e 100% Offline) compilati e firmati automaticamente tramite GitHub Actions.
+            Include supporto a Santo Rosario, Coroncina alla Divina Misericordia e Preghiere Tradizionali con temi Chiaro, Seppia e Scuro.
+          files: |
+            Rosario-Guidato-4-Voci.apk
+            Rosario-Guidato-4-Voci-Offline.apk
