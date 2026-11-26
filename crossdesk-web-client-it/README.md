@@ -21,6 +21,10 @@ Apri `http://127.0.0.1:8080` nel browser. In rete locale basta HTTP; per acceder
 
 Il client usa di default il servizio pubblico `wss://api.crossdesk.cn:9099` (e STUN `stun:api.crossdesk.cn:3478`). Per cambiarli modifica `CONFIG.signalingUrl` in `web_client.js` (riga 38) e `CONFIG.iceServers`; in alternativa puoi auto-ospitare il [server di segnalazione ufficiale](https://github.com/kunkundi/crossdesk-server) (release `v1.1.39`, binario `crossdesk_server-linux-amd64`).
 
+## Tutorial in italiano
+
+L'app include una **WebApp tutorial** completa: apri [`guida/index.html`](guida/) (in locale: `http://127.0.0.1:8080/guida/`). Copre preparazione del PC remoto, connessione, controllo mouse/tastiera/touch, impostazioni video, trasferimento file, appunti, risoluzione problemi, sicurezza e opzioni avanzate, con FAQ ricercabili e checklist finale salvata nel browser. Dalla home dell'app si raggiunge con il link **«📖 Guida in italiano»**.
+
 ## Test
 
 ```bash

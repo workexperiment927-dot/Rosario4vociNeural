@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Guida interattiva in italiano all'uso di CrossDesk Web Client: connessione, controllo remoto, trasferimento file, appunti, video e risoluzione problemi.">
+<title>Guida CrossDesk in italiano — WebApp tutorial</title>
+<style>
+  :root{
+    --accent:#3556e0; --accent-dark:#2440b8; --accent-soft:#e8edff;
+    --ink:#1c2333; --muted:#5b6478; --line:#dfe4ef; --bg:#f4f6fb; --card:#ffffff;
+    --ok:#0e8a4d; --ok-soft:#e2f6ea; --warn:#b06000; --warn-soft:#fff3e0;
+    --bad:#c0392b; --bad-soft:#fdeceb; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--accent),#7a5cff);z-index:99;transition:width .15s}
+  /* Header */
+  header.top{background:linear-gradient(135deg,#141a2e 0%,#1e2c5a 55%,#3556e0 130%);color:#fff;padding:38px 20px 90px}
+  .top-inner{max-width:1080px;margin:0 auto}
+  .top .kicker{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:5px 14px;border-radius:999px;font-size:.82rem;letter-spacing:.4px}
+  .top h1{margin:16px 0 8px;font-size:clamp(1.6rem,3.4vw,2.4rem);line-height:1.2}
+  .top p.sub{margin:0;color:#c6d2f5;max-width:640px;font-size:1.02rem}
+  .top-actions{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;font-weight:600;text-decoration:none;font-size:.95rem;transition:.15s}
+  .btn.primary{background:#fff;color:var(--accent-dark)}
+  .btn.primary:hover{background:var(--accent-soft)}
+  .btn.ghost{border:1px solid rgba(255,255,255,.45);color:#fff}
+  .btn.ghost:hover{background:rgba(255,255,255,.12)}
+  /* Layout */
+  .wrap{max-width:1080px;margin:-62px auto 0;padding:0 20px 70px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:26px;align-items:start}
+  nav.toc{position:sticky;top:18px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 12px;box-shadow:0 8px 26px rgba(28,35,51,.08)}
+  nav.toc h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:4px 10px 8px}
+  nav.toc a{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:9px;color:var(--ink);text-decoration:none;font-size:.9rem;margin:2px 0}
+  nav.toc a .n{width:22px;height:22px;flex:0 0 22px;border-radius:7px;background:var(--accent-soft);color:var(--accent-dark);font-size:.72rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+  nav.toc a:hover{background:var(--accent-soft)}
+  nav.toc a.active{background:var(--accent);color:#fff}
+  nav.toc a.active .n{background:rgba(255,255,255,.25);color:#fff}
+  main{min-width:0}
+  section.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px 28px;margin-bottom:26px;box-shadow:0 8px 26px rgba(28,35,51,.06);scroll-margin-top:16px}
+  section.card h2{margin:0 0 6px;font-size:1.35rem;display:flex;align-items:center;gap:10px}
+  section.card h2 .ico{width:36px;height:36px;flex:0 0 36px;border-radius:10px;background:var(--accent-soft);display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem}
+  section.card p.lead{color:var(--muted);margin:4px 0 18px}
+  h3{font-size:1.05rem;margin:22px 0 8px}
+  /* Generic bits */
+  .grid{display:grid;gap:14px}
+  .grid.two{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .grid.three{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+  .mini{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fbfcff}
+  .mini b{display:block;margin-bottom:4px}
+  .mini p{margin:0;font-size:.9rem;color:var(--muted)}
+  .steps{counter-reset:step;margin:0;padding:0;list-style:none}
+  .steps li{counter-increment:step;position:relative;padding:14px 16px 14px 58px;border:1px solid var(--line);border-radius:12px;margin-bottom:12px;background:#fbfcff}
+  .steps li::before{content:counter(step);position:absolute;left:14px;top:14px;width:30px;height:30px;border-radius:9px;background:var(--accent);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .steps li b{display:block;margin-bottom:3px}
+  .steps li p{margin:0;font-size:.93rem;color:var(--muted)}
+  code{background:#eef1fa;border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-family:ui-monospace,Consolas,Menlo,monospace;font-size:.86em;color:#23306e}
+  pre{background:#141a2e;color:#dbe4ff;border-radius:12px;padding:16px 18px;overflow:auto;font-size:.88rem;line-height:1.55}
+  pre code{background:none;border:0;color:inherit;padding:0}
+  .note{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:12px 16px;margin:16px 0;font-size:.94rem}
+  .note.warn{border-color:var(--warn);background:var(--warn-soft)}
+  .note.ok{border-color:var(--ok);background:var(--ok-soft)}
+  .note.bad{border-color:var(--bad);background:var(--bad-soft)}
+  .note b:first-child{display:block;margin-bottom:2px}
+  /* Mockup finestra connessione */
+  .mock{max-width:430px;margin:6px auto 0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 12px 30px rgba(28,35,51,.14)}
+  .mock .bar{background:#141a2e;color:#9fb0e0;font-size:.72rem;padding:8px 14px;display:flex;justify-content:space-between}
+  .mock .body{padding:22px 24px}
+  .mock .brand{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .mock .logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7a5cff);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+  .mock .brand b{font-size:1.05rem}
+  .mock .brand span{display:block;font-size:.72rem;color:var(--muted)}
+  .mock label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);margin:10px 0 4px}
+  .mock .field{border:1px solid var(--line);border-radius:9px;padding:9px 12px;color:#8a91a5;font-size:.92rem;background:#fafbff;display:flex;justify-content:space-between}
+  .mock .field .dots{letter-spacing:3px}
+  .mock .cta{margin-top:14px;background:var(--accent);color:#fff;text-align:center;border-radius:9px;padding:10px;font-weight:700;font-size:.95rem}
+  .mock .ids{display:flex;gap:10px;margin-top:14px}
+  .mock .ids div{flex:1;border:1px dashed var(--line);border-radius:9px;padding:8px 10px;font-size:.8rem;color:var(--muted);text-align:center}
+  .mock .ids b{display:block;color:var(--ink);font-size:.95rem}
+  /* Tabelle */
+  .tbl{width:100%;border-collapse:collapse;font-size:.92rem;margin:10px 0}
+  .tbl th{background:var(--accent-soft);color:var(--accent-dark);text-align:left;padding:9px 12px;border:1px solid var(--line)}
+  .tbl td{padding:9px 12px;border:1px solid var(--line);vertical-align:top;background:#fff}
+  .tbl tr:nth-child(even) td{background:#fafbff}
+  kbd{background:#1c2333;color:#fff;border-radius:5px;padding:2px 8px;font-family:ui-monospace,Consolas,monospace;font-size:.8rem;box-shadow:0 2px 0 #000}
+  /* FAQ */
+  details.faq{border:1px solid var(--line);border-radius:11px;margin-bottom:10px;background:#fbfcff;overflow:hidden}
+  details.faq summary{cursor:pointer;padding:13px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}
+  details.faq summary::after{content:"+";color:var(--accent);font-weight:800}
+  details.faq[open] summary::after{content:"–"}
+  details.faq .a{padding:0 16px 14px;color:var(--muted);font-size:.94rem}
+  #faq-search{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;font-size:.95rem;margin:12px 0 16px}
+  #faq-search:focus{outline:2px solid var(--accent);border-color:var(--accent)}
+  /* Checklist */
+  .check{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin-bottom:9px;background:#fbfcff;cursor:pointer;user-select:none}
+  .check input{width:18px;height:18px;accent-color:var(--accent);margin-top:3px;flex:0 0 18px}
+  .check.done{background:var(--ok-soft);border-color:#bfe6cd}
+  .check.done span{text-decoration:line-through;color:var(--muted)}
+  .check span{font-size:.94rem}
+  footer{max-width:1080px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:.85rem;text-align:center}
+  .pill{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;vertical-align:middle}
+  .pill.g{background:var(--ok-soft);color:var(--ok)} .pill.o{background:var(--warn-soft);color:var(--warn)} .pill.r{background:var(--bad-soft);color:var(--bad)}
+  @media (max-width:860px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{position:static;max-height:280px;overflow:auto}
+  }
+  @media print{
+    header.top{padding:20px;color:#000;background:#fff;border-bottom:2px solid #000}
+    .top-actions,#progress,nav.toc{display:none}
+    .wrap{margin:0;grid-template-columns:1fr;padding:0}
+    section.card{box-shadow:none;page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header class="top">
+  <div class="top-inner">
+    <span class="kicker">📚 WebApp tutorial · lingua: italiano</span>
+    <h1>Guida a CrossDesk Web Client</h1>
+    <p class="sub">Tutto quello che serve per controllare un computer remoto dal browser: connessione con ID e password, controllo di mouse e tastiera, trasferimento file, appunti condivisi e impostazioni video. Al termine saprai usarlo dall'inizio alla fine.</p>
+    <div class="top-actions">
+      <a class="btn primary" href="../index.html">⟵ Torna all'app</a>
+      <a class="btn ghost" href="#connessione">Inizia: come connettersi</a>
+      <a class="btn ghost" href="#faq">Domande frequenti</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<nav class="toc" aria-label="Indice della guida">
+  <h2>Indice</h2>
+  <a href="#intro"><span class="n">1</span> Cos'è CrossDesk</a>
+  <a href="#requisiti"><span class="n">2</span> Requisiti</a>
+  <a href="#remoto"><span class="n">3</span> Preparare il PC remoto</a>
+  <a href="#connessione"><span class="n">4</span> Connettersi</a>
+  <a href="#controllo"><span class="n">5</span> Controllare il desktop</a>
+  <a href="#video"><span class="n">6</span> Video e prestazioni</a>
+  <a href="#file"><span class="n">7</span> Trasferimento file</a>
+  <a href="#appunti"><span class="n">8</span> Appunti</a>
+  <a href="#problemi"><span class="n">9</span> Risoluzione problemi</a>
+  <a href="#sicurezza"><span class="n">10</span> Sicurezza</a>
+  <a href="#avanzato"><span class="n">11</span> Opzioni avanzate</a>
+  <a href="#faq"><span class="n">12</span> Domande frequenti</a>
+  <a href="#checklist"><span class="n">13</span> Checklist finale</a>
+</nav>
+
+<main>
+
+<!-- 1 -->
+<section class="card" id="intro">
+  <h2><span class="ico">🚀</span> Cos'è CrossDesk</h2>
+  <p class="lead">CrossDesk è un sistema di <b>desktop remoto</b>: ti permette di vedere e controllare un computer (Windows, macOS o Linux) da un altro dispositivo, direttamente dal browser.</p>
+  <p>Il <b>Web Client</b> è la parte che usi nel browser: niente da installare sul dispositivo da cui ti colleghi. La connessione avviene con <b>WebRTC</b>, la stessa tecnologia delle videochiamate: video e comandi viaggiano <b>direttamente tra i due computer</b> (peer-to-peer), quindi la velocità dipende soprattutto dalla rete dei due dispositivi e non da un server centrale.</p>
+  <div class="grid three">
+    <div class="mini"><b>🎥 Video e audio</b><p>Streaming in tempo reale dello schermo remoto, con audio opzionale.</p></div>
+    <div class="mini"><b>🖱️ Controllo completo</b><p>Mouse, tastiera, tastiera a schermo e gesti touch dal telefono.</p></div>
+    <div class="mini"><b>📁 File e appunti</b><p>Trasferisci file e condividi gli appunti tra i due dispositivi.</p></div>
+  </div>
+  <div class="note"><b>Come è fatta questa guida</b>Ogni sezione usa gli stessi nomi dei pulsanti che vedrai nell'app in italiano, così puoi seguire la guida con l'app aperta accanto.</div>
+</section>
+
+<!-- 2 -->
+<section class="card" id="requisiti">
+  <h2><span class="ico">✅</span> Requisiti</h2>
+  <p class="lead">Prima di iniziare, verifica questi punti.</p>
+  <div class="grid two">
+    <div class="mini"><b>🌐 Un browser moderno</b><p>Chrome, Edge, Firefox o Safari aggiornati. WebRTC è incluso in tutti i browser recenti.</p></div>
+    <div class="mini"><b>💻 Il PC da controllare</b><p>Deve avere installata l'app <b>CrossDesk Desktop</b> (release ufficiale, v1.7.7) ed essere acceso e connesso a Internet.</p></div>
+    <div class="mini"><b>🔐 ID dispositivo e password</b><p>L'app CrossDesk sul PC remoto mostra l'identificativo del dispositivo e una password temporanea: sono le chiavi di accesso.</p></div>
+    <div class="mini"><b>🔒 HTTPS per l'uso da remoto</b><p>In locale basta <code>http://127.0.0.1</code>; se apri il client da un altro computer via rete serve HTTPS, perché WebRTC funziona solo su contesti sicuri.</p></div>
+  </div>
+  <div class="note warn"><b>Attenzione al contesto sicuro</b>Se apri il client con <code>http://</code> da un indirizzo non-localhost, il browser blocca la connessione WebRTC. Usa <code>https://</code> oppure resta in locale.</div>
+</section>
+
+<!-- 3 -->
+<section class="card" id="remoto">
+  <h2><span class="ico">🖥️</span> Preparare il computer da controllare</h2>
+  <p class="lead">La connessione esiste solo se sull'altro PC c'è CrossDesk in esecuzione.</p>
+  <ol class="steps">
+    <li><b>Installa CrossDesk Desktop</b><p>Scaricalo dalla pagina ufficiale (<a href="https://www.crossdesk.cn/download/" target="_blank" rel="noopener">crossdesk.cn/download</a>) per Windows, macOS o Linux. Su Linux è disponibile anche un pacchetto <code>.deb</code>.</p></li>
+    <li><b>Avvia l'app e lasciala in esecuzione</b><p>All'avvio l'app si registra sul server di segnalazione e resta in attesa di connessioni.</p></li>
+    <li><b>Recupera ID dispositivo e password</b><p>Nella finestra dell'app trovi l'<b>ID del dispositivo</b> (un numero) e la <b>password temporanea</b>. Annota entrambi: servono nel passaggio successivo. La password cambia a ogni riavvio dell'app.</p></li>
+  </ol>
+  <h3>Cosa vedi nell'app remota</h3>
+  <div class="mock" aria-hidden="true">
+    <div class="bar"><span>CrossDesk Desktop</span><span>● in attesa</span></div>
+    <div class="body">
+      <div class="brand"><div class="logo">C</div><div><b>CrossDesk</b><span>orientato al futuro · desktop remoto</span></div></div>
+      <label>ID dispositivo</label>
+      <div class="field"><span>123 456 789</span><span>⧉</span></div>
+      <label>Password</label>
+      <div class="field"><span class="dots">••••••</span><span>⧉</span></div>
+      <div class="ids"><div>ID del dispositivo<b>123 456 789</b></div><div>Password temporanea<b>6 caratteri</b></div></div>
+    </div>
+  </div>
+  <div class="note"><b>Suggerimento</b>L'ID e la password nel mockup sono d'esempio: usa quelli reali mostrati dalla tua app CrossDesk.</div>
+</section>
+
+<!-- 4 -->
+<section class="card" id="connessione">
+  <h2><span class="ico">🔌</span> Connettersi dal browser</h2>
+  <p class="lead">Ora passiamo al Web Client: <a href="../index.html">apri l'app</a> e segui i passi.</p>
+  <ol class="steps">
+    <li><b>Inserisci l'ID dispositivo remoto</b><p>Nella pagina di benvenuto, nel campo <b>«ID dispositivo remoto»</b>, digita il numero mostrato dall'app CrossDesk del PC da controllare.</p></li>
+    <li><b>Inserisci la password</b><p>Nel campo <b>«Password»</b> digita la password temporanea dell'app remota.</p></li>
+    <li><b>Premi «Connetti»</b><p>Il client contatta il server di segnalazione e vedi lo stato <b>«Connessione in corso…»</b>. Al termine si apre la sessione di controllo remoto.</p></li>
+    <li><b>In caso di disconnessione, usa «Riconnetti al server»</b><p>Se la connessione di segnalazione cade, compare il pulsante <b>«Riconnetti al server»</b>: premlilo per riprovare senza ricaricare la pagina.</p></li>
+  </ol>
+  <h3>Come funziona dietro le quinte</h3>
+  <table class="tbl">
+    <tr><th>Fase</th><th>Cosa succede</th></tr>
+    <tr><td>1. Segnalazione</td><td>Il browser si collega via WebSocket sicuro (<code>wss://</code>) al server di segnalazione e chiama il dispositivo con l'ID fornito.</td></tr>
+    <tr><td>2. Negoziazione WebRTC</td><td>I due lati scambiano le chiavi di sessione (offer/answer e candidati ICE).</td></tr>
+    <tr><td>3. Connessione diretta</td><td>Si apre un canale crittografato peer-to-peer: video, comandi, file e appunti viaggiano lì dentro.</td></tr>
+  </table>
+  <div class="note"><b>Il server non vede il tuo schermo</b>Il server di segnalazione serve solo a «presentarsi»: dopo la stretta di mano il traffico è diretto e cifrato tra i due dispositivi.</div>
+</section>
+
+<!-- 5 -->
+<section class="card" id="controllo">
+  <h2><span class="ico">🎮</span> Controllare il desktop remoto</h2>
+  <p class="lead">Durante la sessione, la barra strumenti in alto raggruppa tutte le funzioni.</p>
+  <div class="grid two">
+    <div class="mini"><b>🖱️ Mouse</b><p>Muovi il mouse sul video: il puntatore agisce sul PC remoto. Nella barra puoi scegliere tra <b>«Mouse relativo»</b> e <b>«Mouse virtuale»</b>; il relativo è più naturale per l'uso quotidiano, il virtuale utile in alcuni giochi o applicazioni full-screen.</p></div>
+    <div class="mini"><b>⌨️ Tastiera</b><p>Il testo digitato viene inviato al remoto. Il pannello <b>«Tastiera»</b> apre una tastiera a schermo con <kbd>Caps</kbd>, <kbd>Shift</kbd>, <kbd>Ctrl</kbd>, <kbd>Alt</kbd> e <kbd>Space</kbd>, comoda quando il layout del PC remoto è diverso dal tuo.</p></div>
+    <div class="mini"><b>📱 Touch e mobile</b><p>Da telefono o tablet il tocco funziona come clic e i gesti simulano mouse e tastiera: puoi controllare il PC remoto comodamente dal divano.</p></div>
+    <div class="mini"><b>🖼️ Monitor</b><p>Se il PC remoto ha più schermi, il menu <b>«Monitor»</b> ti lascia scegliere quale visualizzare.</p></div>
+  </div>
+  <h3>Gestire la sessione</h3>
+  <table class="tbl">
+    <tr><th>Azione</th><th>Come si fa</th></tr>
+    <tr><td>Terminare la sessione</td><td>Premi <b>«Disconnetti»</b>; il client chiede conferma perché interrompe anche trasferimenti e download in corso (i file già scaricati restano).</td></tr>
+    <tr><td>Audio del PC remoto</td><td>Il pulsante <b>«Silenzioso»</b> attiva/disattiva l'audio in streaming.</td></tr>
+    <tr><td>Stato della connessione</td><td>Il pannello <b>«Stato rete»</b> mostra risoluzione, fotogrammi al secondo, velocità di ricezione, perdita pacchetti, latenza e tipo di connessione (diretta o tramite relay).</td></tr>
+  </table>
+</section>
+
+<!-- 6 -->
+<section class="card" id="video">
+  <h2><span class="ico">🎬</span> Video e prestazioni</h2>
+  <p class="lead">Nel pannello <b>«Impostazioni video»</b> regoli qualità e fluidità in base alla tua rete.</p>
+  <div class="grid three">
+    <div class="mini"><b>Qualità video</b><p><b>Bassa</b> o <b>Alta</b>: bassa consuma meno banda, alta offre più nitidezza.</p></div>
+    <div class="mini"><b>Limite FPS</b><p><b>30 fps</b> per risparmiare banda, <b>60 fps</b> per fluidità massima.</p></div>
+    <div class="mini"><b>Preferenze video</b><p><b>Priorità fluidità</b>, <b>bilanciata</b> o <b>priorità qualità</b>: come allocare il bitrate disponibile.</p></div>
+  </div>
+  <h3>Come scegliere</h3>
+  <table class="tbl">
+    <tr><th>Situazione</th><th>Impostazioni consigliate</th></tr>
+    <tr><td>Rete lenta o Wi-Fi debole</td><td>Qualità <b>Bassa</b>, <b>30 fps</b>, <b>priorità fluidità</b></td></tr>
+    <tr><td>Uso quotidiano in ufficio</td><td>Qualità <b>Bassa</b> o <b>Alta</b>, <b>30 fps</b>, <b>bilanciata</b></td></tr>
+    <tr><td>LAN veloce / fiber ottica</td><td>Qualità <b>Alta</b>, <b>60 fps</b>, <b>priorità qualità</b></td></tr>
+    <tr><td>Video o design</td><td>Qualità <b>Alta</b>, <b>60 fps</b>, <b>priorità qualità</b></td></tr>
+  </table>
+  <div class="note"><b>Come leggere lo «Stato rete»</b>Se <b>«Perdita pacchetti video»</b> è alta o la <b>latenza andata/ritorno</b> supera i 100 ms, abbassa qualità e FPS. «Tipo di connessione» ti dice se stai usando una connessione diretta (ottimale) o un relay TURN (più lenta ma funziona dietro NAT restrittivi).</div>
+</section>
+
+<!-- 7 -->
+<section class="card" id="file">
+  <h2><span class="ico">📁</span> Trasferimento file</h2>
+  <p class="lead">Il pannello <b>«Trasferimento file»</b> apre un gestore file a due riquadri: locale a un lato e remoto all'altro.</p>
+  <ol class="steps">
+    <li><b>Apri il pannello</b><p>Dalla barra strumenti, premi <b>«Trasferimento file»</b>. Finché vedi <b>«Attesa della connessione del canale file…»</b>, il canale dati sta ancora si aprendo: attendi qualche secondo.</p></li>
+    <li><b>Sfoglia entrambi i riquadri</b><p>Puoi ordinare per <b>Nome</b> o <b>Data modifica</b>, navigare cartelle e vedi i collegamenti simbolici contrassegnati come tali.</p></li>
+    <li><b>Invia o ricevi</b><p>Trascina i file tra i riquadri oppure usa <b>«Seleziona i file e inviali»</b>. La cronologia mostra i trasferimenti con esito e dimensione.</p></li>
+    <li><b>Scarica sul tuo computer</b><p>I file in arrivo vengono salvati dal browser; il download passa da un service worker e resta attivo anche se chiudi il pannello.</p></li>
+  </ol>
+  <div class="note warn"><b>Non chiudere la pagina durante un trasferimento</b>Disconnettere la sessione interrompe i trasferimenti in corso; i file già scaricati vengono conservati.</div>
+</section>
+
+<!-- 8 -->
+<section class="card" id="appunti">
+  <h2><span class="ico">📋</span> Appunti</h2>
+  <p class="lead">Il pannello <b>«Appunti»</b> condivide il testo tra il tuo browser e il PC remoto.</p>
+  <h3>Due modalità</h3>
+  <table class="tbl">
+    <tr><th>Modalità</th><th>Comportamento</th></tr>
+    <tr><td><b>Sincronizzazione automatica</b></td><td>Il testo copiato nella pagina viene sincronizzato da solo sul remoto (quando il browser concede l'accesso agli appunti).</td></tr>
+    <tr><td><b>Passa il testo manualmente</b></td><td>Incolli nella casella e premi <b>«Invia testo»</b> per mandarlo al remoto, oppure copi su questo computer il <b>«Testo remoto»</b> ricevuto.</td></tr>
+  </table>
+  <div class="grid two">
+    <div class="mini"><b>Limiti da conoscere</b><p>Solo testo (niente immagini), massimo <b>128 KiB</b>, e il buffer si cancella alla disconnessione. Il browser può chiedere il permesso prima di leggere gli appunti.</p></div>
+    <div class="mini"><b>Se qualcosa non funziona</b><p>«Invio degli appunti non riuscito» → riconnettiti e riprova. «Rete occupata» → attendi e riprova più tardi. «Il remoto non ha potuto scrivere negli appunti» → sul PC remoto potrebbe mancare il permesso di incollare automaticamente.</p></div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="card" id="problemi">
+  <h2><span class="ico">🛠️</span> Risoluzione problemi</h2>
+  <p class="lead">I problemi più comuni e come risolverli.</p>
+  <table class="tbl">
+    <tr><th>Problema</th><th>Causa probabile</th><th>Soluzione</th></tr>
+    <tr><td>«Connessione non riuscita, riprova più tardi»</td><td>ID errato, PC remoto spento o server di segnalazione non raggiungibile</td><td>Verifica l'ID, controlla che CrossDesk sia in esecuzione sul remoto, poi premi «Riprova» o «Riconnetti al server»</td></tr>
+    <tr><td>«Timeout di connessione…»</td><td>Il dispositivo remoto non ha risposto in tempo</td><td>Controlla lo stato del dispositivo remoto (che sia online e connesso) e riprova</td></tr>
+    <tr><td>La pagina non si apre in LAN</td><td>Server locale fermo o porta occupata</td><td>Riavvia il server locale, es. <code>python3 -m http.server 8080 --bind 127.0.0.1</code></td></tr>
+    <tr><td>WebRTC bloccato da rete esterna</td><td>Stai usando <code>http://</code> fuori da localhost</td><td>Passa a HTTPS o resta in locale: WebRTC richiede un contesto sicuro</td></tr>
+    <tr><td>Video a scatti o pixelato</td><td>Banda insufficiente</td><td>Qualità «Bassa», 30 fps, priorità fluidità (vedi sezione 6)</td></tr>
+    <tr><td>Trasferimento file lento</td><td>Connessione via relay TURN invece che diretta</td><td>Verifica «Tipo di connessione» nello Stato rete; su relay la velocità è limitata</td></tr>
+    <tr><td>Appunti che non si sincronizzano</td><td>Permesso negato dal browser</td><td>Consenti l'accesso agli appunti quando richiesto, oppure usa la modalità manuale</td></tr>
+    <tr><td>Schermo nero o immagine ferma</td><td>Sospensione del PC remoto o cambio monitor</td><td>Sveglia il PC remoto, rientra nella sessione o ricarica la pagina</td></tr>
+  </table>
+  <div class="note ok"><b>Regola pratica</b>Più della metà dei problemi si risolve con tre passi: controlla che l'app remota sia avviata → verifica ID e password → «Riconnetti al server».</div>
+</section>
+
+<!-- 10 -->
+<section class="card" id="sicurezza">
+  <h2><span class="ico">🔐</span> Sicurezza e privacy</h2>
+  <div class="grid two">
+    <div class="mini"><b>Connessione cifrata</b><p>WebRTC cifra tutto il traffico (DTLS/SRTP): video, comandi, file e appunti non sono leggibili lungo il percorso.</p></div>
+    <div class="mini"><b>Password temporanea</b><p>La password dell'app remota è valida solo per la sessione dell'app: chiudendo e riaprendo CrossDesk cambia. Non condividerla con chi non deve entrare.</p></div>
+    <div class="mini"><b>Chiudi quando hai finito</b><p>Premi sempre «Disconnetti» a fine lavoro e, se il PC remoto non ti serve, chiudi l'app CrossDesk: smetterà di accettare connessioni.</p></div>
+    <div class="mini"><b>Server tuo = dati tuoi</b><p>Con il server di segnalazione auto-ospitato, anche la fase iniziale resta dentro la tua rete. Vedi la sezione avanzata.</p></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="card" id="avanzato">
+  <h2><span class="ico">⚙️</span> Opzioni avanzate</h2>
+  <h3>Cambiare server di segnalazione</h3>
+  <p>Il client usa di default il servizio pubblico <code>wss://api.crossdesk.cn:9099</code> e lo STUN <code>stun:api.crossdesk.cn:3478</code>. Per cambiarli, apri <code>web_client.js</code> e modifica la configurazione in cima al file:</p>
+  <pre><code>const CONFIG = {
+  signalingUrl: "wss://api.crossdesk.cn:9099",   // ← il tuo server
+  iceServers: [ { urls: ["stun:api.crossdesk.cn:3478"] } ],
+  ...
+};</code></pre>
+  <h3>Auto-ospitare il server di segnalazione</h3>
+  <p>Il progetto <a href="https://github.com/kunkundi/crossdesk-server" target="_blank" rel="noopener">crossdesk-server</a> (release <code>v1.1.39</code>, binario <code>crossdesk_server-linux-amd64</code>) offre segnalazione WSS, database SQLite, credenziali TURN temporanee e un pannello di amministrazione web. Aggiornato l'indirizzo nel client, nessuna dipendenza da servizi esterni.</p>
+  <h3>Servire il client in locale</h3>
+  <pre><code>cd crossdesk-web-client-it
+python3 -m http.server 8080 --bind 127.0.0.1
+# apri http://127.0.0.1:8080  ·  la guida resta su http://127.0.0.1:8080/guida/</code></pre>
+  <div class="note"><b>Aggiornamenti</b>Questa edizione italiana segue il codice originale di <code>kunkundi/crossdesk-web-client</code>: per nuove versioni basta rifare la copia e riapplicare la traduzione.</div>
+</section>
+
+<!-- 12 -->
+<section class="card" id="faq">
+  <h2><span class="ico">❓</span> Domande frequenti</h2>
+  <input id="faq-search" type="search" placeholder="Cerca nelle domande… (es. «password», «file», «slow»)" aria-label="Cerca nelle domande frequenti">
+  <div id="faq-list">
+    <details class="faq"><summary>Devo installare qualcosa sul dispositivo da cui mi collego?</summary><div class="a">No: il Web Client gira nel browser. L'app CrossDesk serve solo sul <b>PC controllato</b>.</div></details>
+    <details class="faq"><summary>La password del PC remoto cambia?</summary><div class="a">Sì, è temporanea: a ogni riavvio dell'app CrossDesk remota viene rigenerata. Se la connessione fallisce dopo un riavvio, rileggi la password dall'app.</div></details>
+    <details class="faq"><summary>Posso collegarmi da uno smartphone?</summary><div class="a">Sì. Il client supporta il touch: tocchi come clic e gesti per simulare il mouse, più la tastiera a schermo per scrivere.</div></details>
+    <details class="faq"><summary>Quanti monitor posso vedere?</summary><div class="a">Uno alla volta, selezionabile dal menu «Monitor» nella barra strumenti; se il PC remoto ha un solo schermo il menu mostra quello corrente.</div></details>
+    <details class="faq"><summary>Posso trasferire cartelle intere?</summary><div class="a">Puoi selezionare più file dal gestore; per cartelle grandi conviene comprimerle prima (ZIP) e trasferire il file unico.</div></details>
+    <details class="faq"><summary>Il trasferimento continua se chiudo il pannello?</summary><div class="a">Sì, finché la pagina resta aperta e connessa. Solo la «Disconnessione» (o la chiusura della pagina) interrompe i trasferimenti.</div></details>
+    <details class="faq"><summary>Gli appunti passano anche le immagini?</summary><div class="a">No, solo testo, fino a 128 KiB, e il testo remoto si cancella alla disconnessione.</div></details>
+    <details class="faq"><summary>I dati passano da un server centrale?</summary><div class="a">Solo la fase iniziale di «segnalazione» (presentazione tra i dispositivi). Video, comandi, file e appunti viaggiano poi in diretta e cifrata tra i due computer. In reti molto restrittive può servire un relay TURN, più lento.</div></details>
+    <details class="faq"><summary>Posso usarlo in rete locale senza Internet?</summary><div class="a">Serve comunque un server di segnalazione raggiungibile (pubblico o auto-ospitato in LAN) per la fase iniziale; dopo, il traffico resta tra i due dispositivi.</div></details>
+    <details class="faq"><summary>Come si aggiorna questa edizione italiana?</summary><div class="a">Scarica la nuova versione del client originale, riapplica la traduzione (o confronta le stringhe) e sostituisci i file: la struttura e i test restano gli stessi.</div></details>
+  </div>
+  <p id="faq-empty" hidden style="color:var(--muted)">Nessuna domanda corrisponde alla ricerca.</p>
+</section>
+
+<!-- 13 -->
+<section class="card" id="checklist">
+  <h2><span class="ico">🎯</span> Checklist finale</h2>
+  <p class="lead">Spunta ogni punto: la lista si salva nel browser (localStorage) e ritrovi i progressi alla prossima visita.</p>
+  <div id="checks">
+    <label class="check"><input type="checkbox"><span>Ho installato e avviato CrossDesk Desktop sul PC da controllare</span></label>
+    <label class="check"><input type="checkbox"><span>Ho annotato ID dispositivo e password temporanea dall'app remota</span></label>
+    <label class="check"><input type="checkbox"><span>Ho aperto il Web Client e inserito ID e password</span></label>
+    <label class="check"><input type="checkbox"><span>La connessione è riuscita e vedo il desktop remoto</span></label>
+    <label class="check"><input type="checkbox"><span>Ho provato mouse, tastiera e la tastiera a schermo</span></label>
+    <label class="check"><input type="checkbox"><span>Ho regolato qualità e FPS in base alla mia rete</span></label>
+    <label class="check"><input type="checkbox"><span>Ho trasferito un file e ho condiviso testo negli appunti</span></label>
+    <label class="check"><input type="checkbox"><span>A fine sessione ho premuto «Disconnetti»</span></label>
+  </div>
+  <div class="note ok" id="check-done" hidden><b>Complimenti! 🎉</b>Hai completato tutti i passi: CrossDesk non ha più segreti per te.</div>
+</section>
+
+</main>
+</div>
+
+<footer>
+  Guida in italiano al Web Client originale di CrossDesk (<a href="https://github.com/kunkundi/crossdesk-web-client" style="color:inherit">kunkundi/crossdesk-web-client</a>) · le etichette citate corrispondono all'interfaccia tradotta · <a href="../index.html" style="color:inherit">⟵ Torna all'app</a>
+</footer>
+
+<script>
+"use strict";
+// Barra di progresso lettura
+const bar = document.getElementById("progress");
+addEventListener("scroll", () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + "%";
+}, { passive: true });
+
+// Scrollspy del menu
+const links = [...document.querySelectorAll("nav.toc a")];
+const sections = links.map(a => document.querySelector(a.getAttribute("href")));
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + e.target.id));
+    }
+  });
+}, { rootMargin: "-15% 0px -70% 0px" });
+sections.forEach(s => s && spy.observe(s));
+
+// Ricerca FAQ
+const search = document.getElementById("faq-search");
+const faqs = [...document.querySelectorAll("#faq-list details")];
+const empty = document.getElementById("faq-empty");
+search.addEventListener("input", () => {
+  const q = search.value.trim().toLowerCase();
+  let visible = 0;
+  faqs.forEach(d => {
+    const hit = !q || d.textContent.toLowerCase().includes(q);
+    d.hidden = !hit;
+    if (hit) visible++;
+    if (q && hit) d.open = true;
+  });
+  empty.hidden = visible > 0;
+});
+
+// Checklist persistente
+const KEY = "crossdesk-guida-checklist";
+const boxes = [...document.querySelectorAll("#checks input[type=checkbox]")];
+const done = document.getElementById("check-done");
+let saved = [];
+try { saved = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (_) { saved = []; }
+boxes.forEach((b, i) => {
+  b.checked = saved.includes(i);
+  b.closest(".check").classList.toggle("done", b.checked);
+  b.addEventListener("change", () => {
+    b.closest(".check").classList.toggle("done", b.checked);
+    const state = boxes.map((x, j) => x.checked ? j : -1).filter(j => j >= 0);
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (_) {}
+    done.hidden = state.length !== boxes.length;
+  });
+});
+done.hidden = boxes.every(b => b.checked) === false || boxes.length === 0;
+</script>
+</body>
+</html>
