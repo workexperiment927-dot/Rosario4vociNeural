@@ -1,0 +1,37 @@
+{
+  "name": "CrossDesk Web Client",
+  "short_name": "CrossDesk",
+  "description": "CrossDesk Web Client — desktop remoto nel browser: collegati con ID dispositivo e password, video WebRTC, controllo mouse/tastiera e supporto mobile.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#edf4fc",
+  "theme_color": "#edf4fc",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "icons/crossdesk-120-square.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/crossdesk-152-square.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/crossdesk-167-square.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/crossdesk-180-square.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

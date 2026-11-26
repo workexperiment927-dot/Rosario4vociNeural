@@ -1,0 +1,408 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>CrossDesk Web Client - Client di desktop remoto nel browser</title>
+    <meta
+      name="description"
+      content="CrossDesk Web Client è il client di desktop remoto nel browser di CrossDesk: collegati con ID dispositivo e password, con video WebRTC, controllo mouse/tastiera e supporto mobile."
+    />
+    <meta
+      name="keywords"
+      content="CrossDesk, CrossDesk Web Client, Desktop remoto, WebRTC, Controllo remoto, Connessione remota dal browser"
+    />
+    <meta name="application-name" content="CrossDesk Web Client" />
+    <meta name="author" content="CrossDesk" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <link rel="canonical" href="https://web.crossdesk.cn/" />
+
+    <!-- Anteprima per ricerca e condivisione social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CrossDesk" />
+    <meta property="og:title" content="CrossDesk Web Client - Client di desktop remoto nel browser" />
+    <meta
+      property="og:description"
+      content="Usa CrossDesk nel browser per collegarti al desktop remoto, con video WebRTC, controllo mouse/tastiera e supporto mobile."
+    />
+    <meta property="og:url" content="https://web.crossdesk.cn/" />
+    <meta property="og:image" content="https://web.crossdesk.cn/icons/crossdesk-180-square.png" />
+    <meta property="og:image:alt" content="CrossDesk Web Client" />
+    <meta property="og:locale" content="it_IT" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="CrossDesk Web Client - Client di desktop remoto nel browser" />
+    <meta
+      name="twitter:description"
+      content="Usa CrossDesk nel browser per collegarti al desktop remoto, con video WebRTC, controllo mouse/tastiera e supporto mobile."
+    />
+    <meta name="twitter:image" content="https://web.crossdesk.cn/icons/crossdesk-180-square.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CrossDesk Web Client",
+        "alternateName": "CrossDesk",
+        "url": "https://web.crossdesk.cn/",
+        "description": "CrossDesk Web Client è il client di desktop remoto nel browser di CrossDesk: collegati con ID dispositivo e password, con video WebRTC, controllo mouse/tastiera e supporto mobile.",
+        "applicationCategory": "RemoteDesktopApplication",
+        "operatingSystem": "Windows, macOS, Linux, Android, iOS",
+        "browserRequirements": "Requires a modern browser with WebRTC support",
+        "inLanguage": "it",
+        "image": "https://web.crossdesk.cn/icons/crossdesk-180-square.png",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+
+    <!-- iOS Web App Configurazione -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="CrossDesk" />
+    <meta name="theme-color" content="#edf4fc" />
+
+    <!-- Configurazione icone -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="120x120" href="icons/crossdesk-120-square.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/crossdesk-152-square.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/crossdesk-167-square.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/crossdesk-180-square.png">
+
+    <!-- PWA Manifest (Facoltativo, per una migliore esperienza Web App) -->
+    <link rel="manifest" href="manifest.json" />
+
+    <link rel="stylesheet" href="file_manager.css?v=2026.11.18.1">
+    <link rel="stylesheet" href="styles.css?v=2026.11.18.1" />
+    <script src="sponsors.js?v=2026.11.18.1" defer></script>
+    <script
+      src="vendor/adapter-9.0.1.min.js"
+      onload="console.info('[CrossDesk] Loaded WebRTC adapter from local: vendor/adapter-9.0.1.min.js');"
+      onerror="console.warn('[CrossDesk] Failed to load local WebRTC adapter. Falling back to pinned CDN version.');(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/webrtc-adapter@9.0.1/out/adapter.min.js';s.onload=function(){console.warn('[CrossDesk] Loaded WebRTC adapter from CDN fallback: https://cdn.jsdelivr.net/npm/webrtc-adapter@9.0.1/out/adapter.min.js');};s.onerror=function(){console.error('[CrossDesk] Failed to load WebRTC adapter from both local and CDN fallback.');};document.head.appendChild(s);}());"
+    ></script>
+  </head>
+  <body>
+    <div class="app-container" data-nosnippet>
+      <!-- Connection settings overlay (shown when not connected) -->
+      <div id="connection-overlay" class="connection-overlay">
+        <main class="connection-layout" aria-labelledby="connection-title">
+          <div class="connection-intro">
+            <h1 id="connection-title">Orientato al futuro<span>Desktop remoto.</span></h1>
+            <p>CrossDesk è un software di desktop remoto multipiattaforma gratuito e open source. Con MCP puoi far operare i dispositivi remoti all’AI con il linguaggio naturale.</p>
+          </div>
+          <section class="connection-panel" aria-label="Connetti dispositivo">
+            <div
+              class="status-indicator"
+              id="connection-status-indicator"
+              style="display: none"
+            >
+              <div
+                id="connection-status-led"
+                class="status-led status-led-off"
+              ></div>
+            </div>
+            <form id="connection-form" novalidate>
+              <div class="option">
+                <label for="transmission-id">ID dispositivo remoto</label>
+                <input
+                  id="transmission-id"
+                  type="text"
+                  value=""
+                  placeholder="Inserisci l’ID del dispositivo remoto"
+                  autocomplete="off"
+                  aria-describedby="connection-feedback"
+                  required
+                />
+              </div>
+              <div class="option">
+                <label for="transmission-pwd">Password</label>
+                <input
+                  id="transmission-pwd"
+                  type="password"
+                  value=""
+                  placeholder="Inserisci la password di 6 cifre"
+                  autocomplete="current-password"
+                  aria-describedby="connection-feedback"
+                  minlength="6"
+                  maxlength="6"
+                  required
+                />
+              </div>
+              <p
+                id="connection-feedback"
+                class="connection-feedback"
+                role="status"
+                aria-live="polite"
+              ></p>
+              <div class="actions">
+                <button id="connect" type="submit" disabled>Connetti</button>
+                <button id="retry-signaling" type="button" class="secondary-btn" style="display: none">
+                  Riconnetti al server
+                </button>
+                <button id="disconnect" type="button" style="display: none">Disconnetti</button>
+              </div>
+            </form>
+            <p id="client-version" class="client-version" aria-label="Web Versione client" hidden></p>
+          </section>
+          <nav class="connection-resources" aria-label="CrossDesk Risorse">
+            <div class="resource-actions">
+              <a href="https://www.crossdesk.cn/download/">Scarica CrossDesk</a>
+              <a href="#transmission-id">Apri il Web Client</a>
+            </div>
+            <div class="resource-links">
+              <a href="https://github.com/kunkundi/crossdesk-web-client">Vedi il codice sorgente</a>
+              <a href="https://www.crossdesk.cn/self-hosting/">Guida self-hosting</a>
+              <a href="https://www.crossdesk.cn/#sponsor">Sostieni con una donazione</a>
+            </div>
+          </nav>
+          <aside class="connection-sponsors" aria-labelledby="connection-sponsors-title">
+            <h2 id="connection-sponsors-title">Sponsor speciale</h2>
+            <div class="sponsor-viewport">
+              <div class="sponsor-brands">
+                <a href="https://crossdesk.hualong-ai.com/" target="_blank" rel="sponsored noopener noreferrer">
+                  <img src="icons/hualongai.webp" width="48" height="48" alt="" />
+                  <span>HuaLongAI Hualong Computing&nbsp;<span aria-hidden="true">↗</span></span>
+                </a>
+              </div>
+            </div>
+          </aside>
+        </main>
+      </div>
+
+      <!-- Video display -->
+      <div id="media" style="display: none">
+        <!-- Video container, including draggable virtual mouse -->
+        <div id="video-container" class="video-container">
+          <video
+            id="video"
+            playsinline
+            webkit-playsinline
+            x5-video-player-type="h5"
+            x5-video-player-fullscreen="true"
+            muted
+          ></video>
+          <audio id="audio" autoplay playsinline></audio>
+
+          <!-- Connecting overlay -->
+          <div id="connecting-overlay" class="connecting-overlay" style="display: none">
+            <div class="connecting-message">
+              <div class="connecting-spinner"></div>
+              <span id="connecting-message-text">Connessione in corso...</span>
+            </div>
+          </div>
+
+          <!-- Shared Android/iOS interaction: independent orb, dismissible menu. -->
+          <div id="connected-overlay" class="connected-overlay" style="display: none">
+            <button id="session-menu-shield" type="button" aria-label="Chiudi il menu di controllo" hidden></button>
+            <div id="virtual-mouse" role="group" aria-label="Mouse virtuale" style="display: none">
+              <button type="button" id="virtual-mouse-grip" aria-label="Trascina il mouse virtuale" title="Trascina o usa i tasti freccia per muovere il mouse virtuale"></button>
+              <div class="virtual-mouse-row">
+                <button type="button" id="virtual-left-btn" aria-label="Pulsante sinistro del mouse"></button>
+                <button type="button" id="virtual-wheel" aria-label="Rotellina del mouse" title="Scorri con il dito o con i tasti freccia su/giù"></button>
+                <button type="button" id="virtual-right-btn" aria-label="Pulsante destro del mouse"></button>
+              </div>
+            </div>
+            <button id="panel-collapsed-bar" class="panel-collapsed-bar" type="button"
+              aria-label="Menu di controllo remoto" aria-expanded="false" aria-controls="connected-panel">
+              <img src="icons/crossdesk-180-circle.png" alt="" class="collapsed-bar-icon" draggable="false" />
+            </button>
+            <section class="connected-panel" id="connected-panel" role="dialog" aria-labelledby="session-menu-title" hidden>
+              <header class="session-menu-header">
+                <button id="session-menu-back" class="session-icon-button" type="button" aria-label="Indietro" hidden>‹</button>
+                <div class="session-menu-heading">
+                  <strong id="session-menu-title">Controllo remoto</strong>
+                  <p id="connection-quality" hidden></p>
+                </div>
+                <span id="connected-status-led" class="status-led status-led-off" aria-label="Stato connessione"></span>
+                <button id="session-menu-close" class="session-icon-button" type="button" aria-label="Chiudi">×</button>
+              </header>
+              <div class="session-menu-body">
+                <div id="session-page-main" class="session-grid" data-session-page="main">
+                  <button type="button" id="session-keyboard" class="session-tile" data-needs-connection><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M6 9h1m3 0h1m3 0h1m3 0h1M6 12h1m3 0h1m3 0h1m3 0h1M7 16h10"/></svg><span id="session-keyboard-label">Tastiera</span></button>
+                  <button type="button" id="session-mouse-mode" class="session-tile" ><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="6"/><path d="M12 2v7M6 10h12"/></svg><span id="session-mouse-mode-label">Mouse relativo</span></button>
+                  <button type="button" id="session-mouse" class="session-tile" data-needs-connection><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="6"/><path d="M12 2v7M6 10h12"/></svg><span id="session-mouse-label">Mouse virtuale</span></button>
+                  <button type="button" id="session-display" class="session-tile" data-page="display"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg><span id="session-display-label">Monitor</span></button>
+                  <button type="button" id="session-video" class="session-tile" data-page="video"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h16"/><circle cx="8" cy="5" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="19" r="2"/></svg><span id="session-video-label">Impostazioni video</span></button>
+                  <button type="button" id="audio-toggle" class="session-tile" disabled aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Z"/><path class="audio-icon-volume" d="M16 9a4 4 0 0 1 0 6m3-9a8 8 0 0 1 0 12"/><path class="audio-icon-mute" d="m17 9 5 6m0-6-5 6"/></svg><span id="audio-toggle-label">Silenzioso</span></button>
+                  <button type="button" id="session-network" class="session-tile" data-page="network"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3v18h17M8 16v-4m5 4V8m5 8V5"/></svg><span id="session-network-label">Stato rete</span></button>
+                  <button type="button" id="session-files" class="session-tile" data-page="files"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H5v20h14V7Z M14 2v5h5 M8 12h8m-3-3 3 3-3 3 M16 18H8m3-3-3 3 3 3"/></svg><span id="session-files-label">Trasferimento file</span></button>
+                  <button type="button" id="session-clipboard" class="session-tile" data-page="clipboard"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="18" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 11h6m-6 4h6"/></svg><span>Appunti</span></button>
+                </div>
+                <div data-session-page="clipboard" hidden>
+                  <p id="clipboard-state" class="session-detail" role="status" aria-live="polite">Connessione in corso…</p>
+                  <div class="clipboard-sync">
+                    <div>
+                      <span id="clipboard-automatic-label" class="clipboard-sync-label">Sincronizzazione automatica</span>
+                      <p id="clipboard-permissions" class="session-detail">Se attivo, sincronizza il testo copiato in questa pagina</p>
+                    </div>
+                    <button id="clipboard-automatic" class="clipboard-switch" type="button" role="switch" aria-checked="false" aria-labelledby="clipboard-automatic-label" aria-describedby="clipboard-permissions" disabled><span aria-hidden="true"></span></button>
+                  </div>
+                  <p id="clipboard-feedback" class="session-feedback clipboard-feedback" role="status" aria-live="polite"></p>
+                  <details id="clipboard-manual" class="clipboard-manual">
+                    <summary>Passa il testo manualmente</summary>
+                    <div class="clipboard-manual-fields">
+                      <div class="clipboard-actions">
+                        <button id="clipboard-send-local" type="button" disabled>Invia al dispositivo remoto</button>
+                        <button id="clipboard-copy-remote" type="button" disabled>Copia su questo computer</button>
+                      </div>
+                      <label class="session-field-label" for="clipboard-local">Invia testo</label>
+                      <textarea id="clipboard-local" class="clipboard-text" rows="3" placeholder="Incolla o digita il testo" spellcheck="false" autocomplete="off"></textarea>
+                      <button id="clipboard-send-text" type="button" disabled>Invia</button>
+                      <label class="session-field-label" for="clipboard-remote">Testo remoto</label>
+                      <textarea id="clipboard-remote" class="clipboard-text" rows="3" readonly placeholder="Nessun testo remoto" spellcheck="false"></textarea>
+                      <p class="session-detail">Solo testo · max 128 KiB · si cancella alla disconnessione</p>
+                    </div>
+                  </details>
+                </div>
+                <div data-session-page="video" hidden>
+                  <div class="resolution-setting">
+                    <label class="session-field-label" for="display-resolution">Risoluzione del dispositivo controllato</label>
+                    <select id="display-resolution" aria-describedby="display-resolution-feedback" disabled><option value="">Attesa delle informazioni del dispositivo controllato…</option></select>
+                    <p id="display-resolution-feedback" class="session-feedback" role="status" aria-live="polite"></p>
+                  </div>
+                  <fieldset><legend>Qualità video</legend><div class="session-segments"><button type="button" data-setting="quality" data-value="0" aria-pressed="false" disabled>Bassa</button><button type="button" data-setting="quality" data-value="1" aria-pressed="false" disabled>IT</button><button type="button" data-setting="quality" data-value="2" aria-pressed="false" disabled>Alta</button></div></fieldset>
+<fieldset><legend>Limite FPS</legend><div class="session-segments"><button type="button" data-setting="frame_rate" data-value="30" aria-pressed="false" disabled>30 fps</button><button type="button" data-setting="frame_rate" data-value="60" aria-pressed="false" disabled>60 fps</button></div></fieldset>
+<fieldset><legend>Preferenze video</legend><div class="session-segments"><button type="button" data-setting="preference" data-value="0" aria-pressed="false" disabled>Priorità fluidità</button><button type="button" data-setting="preference" data-value="1" aria-pressed="false" disabled>Priorità qualità</button><button type="button" data-setting="preference" data-value="2" aria-pressed="false" disabled>Bilanciata</button></div></fieldset>
+
+                  <p id="video-settings-feedback" class="session-feedback" role="status" aria-live="polite"></p>
+                  <button id="video-settings-retry" type="button" hidden>Riprova</button>
+                </div>
+                <div data-session-page="display" hidden>
+                  <label class="session-field-label" for="display-id">Monitor corrente</label>
+                  <select id="display-id" disabled><option value="" selected>Attesa dello schermo remoto…</option></select>
+                </div>
+                <div data-session-page="network" hidden>
+                  <dl class="session-network"><div><dt>Risoluzione</dt><dd id="network-resolution">—</dd></div><div><dt>Frequenza fotogrammi</dt><dd id="network-fps">—</dd></div><div><dt>Velocità di ricezione video</dt><dd id="network-bitrate">—</dd></div><div><dt>Perdita pacchetti video</dt><dd id="network-loss">—</dd></div><div><dt>Latenza andata/ritorno</dt><dd id="network-rtt">—</dd></div><div><dt>Buffer video</dt><dd id="network-buffer">—</dd></div><div><dt>Tempo di decodifica</dt><dd id="network-decode">—</dd></div><div><dt>Tipo di connessione</dt><dd id="network-route">—</dd></div></dl>
+                  <p id="connected-client-version" class="client-version" aria-label="Web Versione client" hidden></p>
+                </div>
+                <div data-session-page="files" hidden>
+                  <p id="file-transfer-status" class="session-detail" role="status" aria-live="polite">Attesa della connessione del canale file…</p>
+                  <button id="file-transfer-select" type="button" disabled>Seleziona i file e inviali</button>
+                  <input id="file-transfer-input" type="file" multiple hidden>
+                  <p id="file-transfer-storage" class="session-detail">I file ricevuti vengono salvati nei download del browser durante il trasferimento.</p>
+                  <p id="file-transfer-feedback" class="session-feedback" role="status" aria-live="polite"></p>
+                  <ul id="file-transfer-list" aria-label="Cronologia trasferimenti"></ul>
+                  <p id="file-transfer-empty" class="session-detail">Nessuna cronologia di trasferimento</p>
+                </div>
+                <div data-session-page="disconnect" hidden>
+                  <p class="session-confirm-title">Disconnettere la connessione remota corrente?</p>
+                  <p class="session-confirm-detail">I trasferimenti e i download in corso si fermeranno.<br>I file già scaricati saranno conservati.</p>
+                  <div class="session-confirm-actions">
+                    <button id="session-disconnect-cancel" type="button">Annulla</button>
+                    <button id="session-disconnect-confirm" class="session-danger" type="button">Disconnetti</button>
+                  </div>
+                </div>
+              </div>
+              <button id="disconnect-connected" class="session-disconnect session-danger" type="button">Disconnetti</button>
+            </section>
+          </div>
+          <!-- Virtual keyboard -->
+          <div id="virtual-keyboard" class="virtual-keyboard" style="display: none">
+            <div id="keyboard-header" class="keyboard-header">
+              <span>Tastiera</span><span class="keyboard-grip" aria-hidden="true">⠿</span>
+              <button id="keyboard-close" class="keyboard-close-btn">×</button>
+            </div>
+            <div class="keyboard-layout">
+              <!-- Number row -->
+              <div class="keyboard-row">
+                <button class="keyboard-key" data-keycode="192">`</button>
+                <button class="keyboard-key" data-keycode="49">1</button>
+                <button class="keyboard-key" data-keycode="50">2</button>
+                <button class="keyboard-key" data-keycode="51">3</button>
+                <button class="keyboard-key" data-keycode="52">4</button>
+                <button class="keyboard-key" data-keycode="53">5</button>
+                <button class="keyboard-key" data-keycode="54">6</button>
+                <button class="keyboard-key" data-keycode="55">7</button>
+                <button class="keyboard-key" data-keycode="56">8</button>
+                <button class="keyboard-key" data-keycode="57">9</button>
+                <button class="keyboard-key" data-keycode="48">0</button>
+                <button class="keyboard-key" data-keycode="189">-</button>
+                <button class="keyboard-key" data-keycode="187">=</button>
+                <button class="keyboard-key keyboard-key-wide" data-keycode="8">⌫</button>
+              </div>
+              <!-- Letter row 1 -->
+              <div class="keyboard-row">
+                <button class="keyboard-key" data-keycode="81">Q</button>
+                <button class="keyboard-key" data-keycode="87">W</button>
+                <button class="keyboard-key" data-keycode="69">E</button>
+                <button class="keyboard-key" data-keycode="82">R</button>
+                <button class="keyboard-key" data-keycode="84">T</button>
+                <button class="keyboard-key" data-keycode="89">Y</button>
+                <button class="keyboard-key" data-keycode="85">U</button>
+                <button class="keyboard-key" data-keycode="73">I</button>
+                <button class="keyboard-key" data-keycode="79">O</button>
+                <button class="keyboard-key" data-keycode="80">P</button>
+                <button class="keyboard-key" data-keycode="219">[</button>
+                <button class="keyboard-key" data-keycode="221">]</button>
+                <button class="keyboard-key" data-keycode="220">\</button>
+              </div>
+              <!-- Letter row 2 -->
+              <div class="keyboard-row">
+                <button class="keyboard-key keyboard-key-wide" data-keycode="20">Caps</button>
+                <button class="keyboard-key" data-keycode="65">A</button>
+                <button class="keyboard-key" data-keycode="83">S</button>
+                <button class="keyboard-key" data-keycode="68">D</button>
+                <button class="keyboard-key" data-keycode="70">F</button>
+                <button class="keyboard-key" data-keycode="71">G</button>
+                <button class="keyboard-key" data-keycode="72">H</button>
+                <button class="keyboard-key" data-keycode="74">J</button>
+                <button class="keyboard-key" data-keycode="75">K</button>
+                <button class="keyboard-key" data-keycode="76">L</button>
+                <button class="keyboard-key" data-keycode="186">;</button>
+                <button class="keyboard-key" data-keycode="222">'</button>
+                <button class="keyboard-key keyboard-key-wide" data-keycode="13">↵</button>
+              </div>
+              <!-- Letter row 3 -->
+              <div class="keyboard-row">
+                <button class="keyboard-key keyboard-key-wide" data-keycode="16">Shift</button>
+                <button class="keyboard-key" data-keycode="90">Z</button>
+                <button class="keyboard-key" data-keycode="88">X</button>
+                <button class="keyboard-key" data-keycode="67">C</button>
+                <button class="keyboard-key" data-keycode="86">V</button>
+                <button class="keyboard-key" data-keycode="66">B</button>
+                <button class="keyboard-key" data-keycode="78">N</button>
+                <button class="keyboard-key" data-keycode="77">M</button>
+                <button class="keyboard-key" data-keycode="188">,</button>
+                <button class="keyboard-key" data-keycode="190">.</button>
+                <button class="keyboard-key" data-keycode="191">/</button>
+                <button class="keyboard-key keyboard-key-wide" data-keycode="16">Shift</button>
+              </div>
+              <!-- Function row -->
+              <div class="keyboard-row">
+                <button class="keyboard-key" data-keycode="17">Ctrl</button>
+                <button class="keyboard-key" data-keycode="18">Alt</button>
+                <button class="keyboard-key keyboard-key-space" data-keycode="32">Space</button>
+                <button class="keyboard-key" data-keycode="18">Alt</button>
+                <button class="keyboard-key" data-keycode="17">Ctrl</button>
+                <button class="keyboard-key" data-keycode="37">←</button>
+                <button class="keyboard-key" data-keycode="38">↑</button>
+                <button class="keyboard-key" data-keycode="40">↓</button>
+                <button class="keyboard-key" data-keycode="39">→</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script src="control.js?v=2026.11.18.1"></script>
+    <script src="turn_credentials.js?v=2026.11.18.1"></script>
+    <script src="file_download.js?v=2026.11.18.1"></script>
+    <script src="file_browser.js?v=2026.11.18.1"></script>
+    <script src="file_transfer.js?v=2026.11.18.1"></script>
+    <script src="file_manager.js?v=2026.11.18.1"></script>
+    <script src="clipboard.js?v=2026.11.18.1"></script>
+    <script src="display_resolutions.js?v=2026.11.18.1"></script>
+    <script src="web_client.js?v=2026.11.18.1"></script>
+    <script src="session_controls.js?v=2026.11.18.1"></script>
+  </body>
+</html>
