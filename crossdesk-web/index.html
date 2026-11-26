@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrossDesk Web — Desktop remoto (clone v1.7.7)</title>
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--panel2:#1e222c;--line:#2a2f3a;--txt:#e8eaef;--mut:#9aa3b2;--acc:#3b82f6;--acc2:#22c55e;--warn:#f59e0b;--bad:#ef4444;--rad:12px}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt)}
+header{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10;flex-wrap:wrap}
+.logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#3b82f6,#22c55e);display:grid;place-items:center;font-weight:800;color:#fff}
+header h1{font-size:17px;margin:0}header .ver{color:var(--mut);font-size:12px}
+.badge{margin-left:auto;font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel2)}
+.badge.on{color:var(--acc2);border-color:#14532d}.badge.off{color:var(--warn)}
+nav{display:flex;gap:6px;padding:10px 18px 0;flex-wrap:wrap}
+nav button{background:var(--panel);color:var(--mut);border:1px solid var(--line);padding:8px 14px;border-radius:999px;cursor:pointer;font-size:13px}
+nav button.act{background:var(--acc);color:#fff;border-color:var(--acc)}
+main{max-width:1080px;margin:0 auto;padding:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--rad);padding:18px;margin-bottom:16px}
+.card h2{margin:0 0 6px;font-size:16px}.card p{color:var(--mut);font-size:13px;line-height:1.55}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}
+label{font-size:12px;color:var(--mut);display:block;margin:10px 0 4px}
+input,select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:10px;font-size:14px}
+.btn{display:inline-block;background:var(--acc);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-size:14px;cursor:pointer;text-decoration:none;margin:8px 6px 0 0}
+.btn.ghost{background:var(--panel2);border:1px solid var(--line);color:var(--txt)}
+.btn.green{background:var(--acc2)}.btn.red{background:var(--bad)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mono{font-family:ui-monospace,Consolas,monospace;letter-spacing:.5px}
+.big-id{font-size:26px;font-weight:800;letter-spacing:2px}
+canvas.qr{background:#fff;border-radius:8px}
+#remoteWrap{display:none}
+#remoteCanvas{width:100%;border-radius:10px;border:1px solid var(--line);background:#000;cursor:crosshair;display:block}
+.toolbar{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.toolbar button{background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:10px 0}
+.stat{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center}
+.stat b{font-size:18px;display:block}.stat span{font-size:11px;color:var(--mut)}
+.prog{height:10px;background:var(--panel2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.prog>i{display:block;height:100%;width:0;background:var(--acc);transition:width .2s}
+.fileitem{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+.devitem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:var(--panel2)}
+.devitem small{color:var(--mut)}
+.kbd{background:var(--panel2);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:2px 7px;font-size:12px}
+details{margin:8px 0}summary{cursor:pointer;font-weight:600;font-size:14px}
+ul{color:var(--mut);font-size:13px;line-height:1.6}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#111827;border:1px solid var(--line);color:var(--txt);padding:10px 16px;border-radius:10px;font-size:13px;display:none;z-index:99}
+footer{color:var(--mut);font-size:12px;text-align:center;padding:20px}
+input[type=range]{padding:0}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">CD</div>
+  <div><h1>CrossDesk Web</h1><div class="ver">Clone web in italiano · basato su v1.7.7-20261124</div></div>
+  <span id="statusBadge" class="badge off">● Non connesso</span>
+</header>
+<nav>
+  <button data-tab="home" class="act">🏠 Home</button>
+  <button data-tab="session">🖥️ Sessione remota</button>
+  <button data-tab="files">📁 Trasferimento file</button>
+  <button data-tab="settings">⚙️ Impostazioni</button>
+  <button data-tab="news">🆕 Novità v1.7.7</button>
+  <button data-tab="download">⬇️ Download</button>
+</nav>
+<main>
+
+<!-- HOME -->
+<section id="tab-home">
+  <div class="grid">
+    <div class="card">
+      <h2>Questo dispositivo</h2>
+      <p>Il tuo ID CrossDesk e la password temporanea per l'accesso remoto. Condividili solo con chi deve controllare questo computer.</p>
+      <label>Il tuo ID</label><div class="big-id mono" id="myId">······</div>
+      <label>Password temporanea</label><div class="mono" id="myPass" style="font-size:18px">······</div>
+      <div class="row">
+        <button class="btn ghost" id="copyId">📋 Copia ID</button>
+        <button class="btn ghost" id="copyPass">📋 Copia password</button>
+        <button class="btn ghost" id="regenPass">🔄 Rigenera password</button>
+      </div>
+      <div class="row" style="margin-top:14px">
+        <canvas class="qr" id="qr" width="110" height="110"></canvas>
+        <p style="max-width:260px">Scansiona il codice con l'app CrossDesk sul telefono per collegarti rapidamente (simulato in questa demo web).</p>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Controlla un dispositivo remoto</h2>
+      <p>Inserisci ID e password del computer remoto, oppure usa la connessione diretta IP (novità v1.7.7).</p>
+      <label>ID remoto</label><input id="remoteId" placeholder="es. 123 456 789" inputmode="numeric">
+      <label>Password</label><input id="remotePass" type="password" placeholder="Password del dispositivo remoto">
+      <label>Connessione diretta (facoltativo) — IP:porta</label><input id="directIp" placeholder="es. 192.168.1.20:21118">
+      <button class="btn green" id="connectBtn">🔗 Connetti</button>
+      <p id="connMsg" style="min-height:18px"></p>
+      <h2 style="margin-top:18px">Dispositivi recenti</h2>
+      <div id="recentList"><p>Nessun dispositivo recente.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Come funziona questa web app</h2>
+    <ul>
+      <li>È un <b>clone dell'interfaccia</b> di CrossDesk v1.7.7 in italiano, in un unico file HTML: funziona <b>offline</b>, anche con <span class="kbd">file://</span>.</li>
+      <li>La sessione remota, le statistiche di rete e i trasferimenti sono <b>simulati nel browser</b> (un vero desktop remoto richiede il client nativo con WebRTC).</li>
+      <li>Per il controllo reale, scarica l'app originale dalla sezione <b>Download</b>: Android, Windows, macOS e Linux.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SESSION -->
+<section id="tab-session" style="display:none">
+  <div class="card" id="remoteWrap">
+    <h2>Sessione remota — <span id="sessName">dispositivo</span></h2>
+    <div class="stats">
+      <div class="stat"><b id="stFps">60</b><span>FPS</span></div>
+      <div class="stat"><b id="stPing">12 ms</b><span>Latenza</span></div>
+      <div class="stat"><b id="stBit">3,2 Mb/s</b><span>Bitrate</span></div>
+      <div class="stat"><b id="stRes">1920×1080</b><span>Risoluzione</span></div>
+      <div class="stat"><b id="stTime">00:00</b><span>Durata</span></div>
+    </div>
+    <canvas id="remoteCanvas" width="1280" height="720"></canvas>
+    <div class="toolbar">
+      <button id="btnFs">⛶ Schermo intero</button>
+      <button id="btnPrivacy">⬛ Schermo privacy</button>
+      <button id="btnQuality">🎞️ Qualità: Alta</button>
+      <button id="btnClip">📋 Appunti</button>
+      <button id="btnKeys">⌨️ Scorciatoie</button>
+      <button id="btnDisc" style="color:#fca5a5">✖ Disconnetti</button>
+    </div>
+    <div class="grid">
+      <div>
+        <label>Sensibilità puntatore</label><input type="range" id="sensPtr" min="1" max="10" value="5">
+        <label>Sensibilità rotellina (salvata per dispositivo)</label><input type="range" id="sensWheel" min="1" max="10" value="5">
+      </div>
+      <div>
+        <label>Appunti condivisi (simulati)</label>
+        <textarea id="clipText" rows="3" placeholder="Testo copiato sul dispositivo remoto…"></textarea>
+        <button class="btn ghost" id="clipSend">📤 Invia al remoto</button>
+      </div>
+    </div>
+    <div id="keysPanel" style="display:none;margin-top:12px">
+      <span class="kbd">Ctrl</span>+<span class="kbd">C</span> <span class="kbd">Ctrl</span>+<span class="kbd">V</span> <span class="kbd">Ctrl</span>+<span class="kbd">Z</span> <span class="kbd">Alt</span>+<span class="kbd">Tab</span> <span class="kbd">Win</span>+<span class="kbd">D</span> <span class="kbd">F5</span> — premi un tasto per inviarlo (simulato).
+      <div class="row" style="margin-top:8px">
+        <button class="btn ghost" data-key="Ctrl+C">Ctrl+C</button><button class="btn ghost" data-key="Ctrl+V">Ctrl+V</button>
+        <button class="btn ghost" data-key="Alt+Tab">Alt+Tab</button><button class="btn ghost" data-key="Win+D">Win+D</button>
+        <button class="btn ghost" data-key="F5">F5</button>
+      </div>
+    </div>
+  </div>
+  <div class="card" id="noSession"><h2>Nessuna sessione attiva</h2><p>Vai alla Home, inserisci ID e password di un dispositivo e premi <b>Connetti</b>. Qui vedrai lo schermo remoto simulato con statistiche in tempo reale.</p></div>
+</section>
+
+<!-- FILES -->
+<section id="tab-files" style="display:none">
+  <div class="card">
+    <h2>Trasferimento file</h2>
+    <p>Come nella v1.7.7: copia i file sul computer locale e incollali sul remoto (fino a 128 file). Qui puoi selezionare file da inviare e seguire l'avanzamento, con possibilità di annullare.</p>
+    <input type="file" id="filePick" multiple>
+    <div class="row"><button class="btn" id="sendFiles">📤 Invia al dispositivo remoto</button><button class="btn red" id="cancelFiles">✖ Annulla</button></div>
+    <div class="prog" style="margin-top:14px"><i id="fileBar"></i></div>
+    <p id="fileMsg"></p><div id="fileList"></div>
+  </div>
+</section>
+
+<!-- SETTINGS -->
+<section id="tab-settings" style="display:none">
+  <div class="card">
+    <h2>Impostazioni</h2>
+    <label>Server di segnalazione personalizzato</label><input id="setServer" placeholder="es. rs.example.com:21116">
+    <label>Qualità video predefinita</label>
+    <select id="setQuality"><option>Alta</option><option>Media</option><option>Bassa</option><option>Personalizzata</option></select>
+    <label><input type="checkbox" id="setTrusted" style="width:auto"> Consenti solo dispositivi fidati (pairing con impronta digitale)</label><br>
+    <label><input type="checkbox" id="setAuto" style="width:auto"> Avvio automatico all'accensione</label><br>
+    <label><input type="checkbox" id="setPrivacy" style="width:auto"> Schermo privacy nero durante il controllo</label><br>
+    <button class="btn" id="saveSettings">💾 Salva impostazioni</button>
+    <p id="setMsg"></p>
+  </div>
+  <div class="card">
+    <h2>Dispositivi fidati (pairing)</h2>
+    <p>Copia le informazioni di pairing da <b>Impostazioni → Informazioni di pairing locali</b> sul telefono, aggiungile sul computer controllato e verifica l'impronta. I dispositivi accoppiati usano comunque la password di connessione.</p>
+    <button class="btn ghost" id="copyPair">📋 Copia informazioni di pairing</button>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="tab-news" style="display:none">
+  <div class="card">
+    <h2>🆕 Novità della v1.7.7-20261124 (tradotte in italiano)</h2>
+    <details open><summary>Nuove funzioni e miglioramenti</summary><ul>
+      <li>Copia e incolla di file in entrambe le direzioni tra desktop Windows, macOS e Linux: il trasferimento inizia all'incolla, il ricevente può vedere l'avanzamento o annullare.</li>
+      <li>Ogni dispositivo remoto ha la sua finestra di controllo: più computer visibili insieme, dimensione ripristinata alla riconnessione, schermo intero per finestra su macOS.</li>
+      <li>Android, iOS e HarmonyOS possono collegarsi direttamente tramite IP e porta (LAN o VPN), con entrambi gli indirizzi visibili nello stato di rete.</li>
+      <li>Pairing con dispositivi fidati su mobile, con verifica dell'impronta digitale.</li>
+      <li>Pannello scorciatoie per Windows, macOS e Linux su mobile: personalizzabili, riordinabili, fissabili; alias e gruppi per i dispositivi recenti.</li>
+      <li>Zoom con due dita più rapido, mouse virtuale spostabile, tastiera con anteprima del contenuto nascosto.</li>
+      <li>Sensibilità di puntatore e rotellina regolabili (la rotellina è salvata per dispositivo); schermo privacy nero su Windows e macOS; pulsante flottante che si ritira dopo 3 secondi.</li>
+      <li>Il computer controllato può vedere chi è collegato e inviare file o disconnettere un dispositivo.</li>
+      <li>Minore ritardo tra decodifica video e visualizzazione, qualità più stabile su relay, recupero migliore dopo perdite di pacchetti.</li>
+    </ul></details>
+    <details><summary>Correzioni</summary><ul>
+      <li>Ripresa della cattura schermo su macOS dopo interruzioni e risoluzione Retina corretta.</li>
+      <li>Correzioni di cattura su Windows e Linux X11, colori SDR e compatibilità hardware.</li>
+      <li>Tasti Maiusc, Bloc Maiusc e mappatura ISO corretti; scorrimento fine su trackpad e rotelline ad alta risoluzione.</li>
+      <li>Testo degli input method non più perso su Android e iOS.</li>
+      <li>Connessioni duplicate, impostazioni server iOS e appunti multi-sessione corretti.</li>
+    </ul></details>
+    <details><summary>Note di aggiornamento</summary><ul>
+      <li>Per copia-incolla file aggiornare entrambi i client alla 1.7.7 (max 128 file; cartelle dalla finestra a due pannelli; su Linux servono FUSE 2/3).</li>
+      <li>macOS 14.0 o superiore per Intel e Apple Silicon; l'installer controlla la versione prima di installare.</li>
+    </ul></details>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section id="tab-download" style="display:none">
+  <div class="card">
+    <h2>⬇️ Scarica in locale</h2>
+    <p><b>Questa web app:</b> un unico file HTML, nessun server, funziona offline.</p>
+    <button class="btn" id="dlSelf">💾 Scarica questa web app (HTML)</button>
+    <button class="btn ghost" id="dlZip">📦 Scarica ZIP (HTML + README)</button>
+    <p style="margin-top:16px"><b>App originale CrossDesk v1.7.7</b> (per il controllo remoto reale) — download ufficiali da GitHub:</p>
+    <div class="row">
+      <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/kunkundi/crossdesk/releases/download/v1.7.7-20261124/crossdesk-android-arm64-v1.7.7-20261124.apk">🤖 Android (APK)</a>
+      <a class="btn ghost" target="_blank" rel="noopener" href="https://github.com/kunkundi/crossdesk/releases/tag/v1.7.7-20261124">💻 Tutte le versioni (Windows/macOS/Linux)</a>
+    </div>
+    <p>Licenza dell'originale: vedi il repository <a style="color:var(--acc)" target="_blank" rel="noopener" href="https://github.com/kunkundi/crossdesk">kunkundi/crossdesk</a>. Questo clone web è solo un'interfaccia dimostrativa in italiano.</p>
+  </div>
+</section>
+</main>
+<footer>CrossDesk Web — clone dimostrativo in italiano · v1.7.7-20261124 · Funziona offline in un unico file HTML</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2200)}
+function copyTxt(t){navigator.clipboard?navigator.clipboard.writeText(t).then(()=>toast("Copiato: "+t)):toast(t)}
+// ID locale persistente
+let myId=store.get("cd_id",null); if(!myId){myId=String(Math.floor(100000000+Math.random()*900000000));store.set("cd_id",myId)}
+let myPass=store.get("cd_pass",null); if(!myPass){myPass=String(Math.floor(100000+Math.random()*900000));store.set("cd_pass",myPass)}
+$("myId").textContent=myId.replace(/(\d{3})(?=\d)/g,"$1 ");
+$("myPass").textContent=myPass;
+$("copyId").onclick=()=>copyTxt(myId); $("copyPass").onclick=()=>copyTxt(myPass);
+$("regenPass").onclick=()=>{myPass=String(Math.floor(100000+Math.random()*900000));store.set("cd_pass",myPass);$("myPass").textContent=myPass;toast("Nuova password generata")};
+// QR finto (pattern deterministico dall'ID)
+(function(){const c=$("qr"),x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,110,110);x.fillStyle="#000";let s=parseInt(myId.slice(-4),10);const rnd=()=>{s=(s*1103515245+12345)%2147483648;return s/2147483648};for(let i=0;i<11;i++)for(let j=0;j<11;j++)if(rnd()>.5)x.fillRect(4+i*9,4+j*9,8,8);x.fillStyle="#fff";x.fillRect(0,0,30,30);x.fillRect(80,0,30,30);x.fillRect(0,80,30,30);x.fillStyle="#000";x.fillRect(4,4,22,22);x.fillRect(84,4,22,22);x.fillRect(4,84,22,22);x.fillStyle="#fff";x.fillRect(10,10,10,10);x.fillRect(90,10,10,10);x.fillRect(10,90,10,10)})();
+// Tab
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("act"));b.classList.add("act");["home","session","files","settings","news","download"].forEach(t=>$("tab-"+t).style.display=t===b.dataset.tab?"block":"none")});
+// Dispositivi recenti
+let recent=store.get("cd_recent",[]);
+function renderRecent(){const el=$("recentList");if(!recent.length){el.innerHTML="<p>Nessun dispositivo recente.</p>";return}el.innerHTML="";recent.forEach((r,i)=>{const d=document.createElement("div");d.className="devitem";d.innerHTML=`<div><b>${r.alias||r.id}</b><br><small>${r.id}${r.group?" · "+r.group:""}</small></div><div><button class="btn ghost" data-i="${i}">Connetti</button> <button class="btn ghost" data-d="${i}">🗑</button></div>`;el.appendChild(d)});el.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{$("remoteId").value=recent[+b.dataset.i].id;connect()});el.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{recent.splice(+b.dataset.d,1);store.set("cd_recent",recent);renderRecent()})}
+renderRecent();
+// Connessione simulata
+let connected=false,timer=null,sec=0,privacy=false;
+function connect(){const id=$("remoteId").value.trim(),pw=$("remotePass").value.trim(),ip=$("directIp").value.trim();const msg=$("connMsg");
+ if(!id){msg.textContent="⚠️ Inserisci l'ID del dispositivo remoto.";return}
+ msg.textContent="⏳ Connessione in corso"+(ip?" (diretta a "+ip+")":"")+"…";
+ setTimeout(()=>{connected=true;sec=0;$("sessName").textContent=id;$("remoteWrap").style.display="block";$("noSession").style.display="none";
+  $("statusBadge").textContent="● Connesso a "+id;$("statusBadge").className="badge on";
+  if(!recent.find(r=>r.id===id)){recent.unshift({id});store.set("cd_recent",recent);renderRecent()}
+  msg.textContent="✅ Connesso! Vai alla scheda Sessione remota.";toast("Connesso a "+id);startSim();drawRemote()},900)}
+$("connectBtn").onclick=connect;
+$("remotePass").addEventListener("keydown",e=>{if(e.key==="Enter")connect()});
+function disconnect(){connected=false;clearInterval(timer);$("remoteWrap").style.display="none";$("noSession").style.display="block";$("statusBadge").textContent="● Non connesso";$("statusBadge").className="badge off";toast("Sessione chiusa")}
+$("btnDisc").onclick=disconnect;
+// Canvas: desktop remoto simulato
+const cv=$("remoteCanvas"),ctx=cv.getContext("2d");let mx=640,my=360;
+function drawRemote(){const w=cv.width,h=cv.height;ctx.fillStyle=privacy?"#000":"#1b3a5c";ctx.fillRect(0,0,w,h);
+ if(privacy){ctx.fillStyle="#666";ctx.font="28px sans-serif";ctx.textAlign="center";ctx.fillText("Schermo privacy attivo",w/2,h/2);return}
+ const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,"#2563eb");g.addColorStop(1,"#0ea5e9");ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+ ctx.fillStyle="rgba(255,255,255,.92)";ctx.fillRect(140,90,1000,540);
+ ctx.fillStyle="#111827";ctx.fillRect(140,90,1000,42);ctx.fillStyle="#fff";ctx.font="18px sans-serif";ctx.textAlign="left";ctx.fillText("Desktop remoto — CrossDesk Web (simulazione)",160,118);
+ ctx.fillStyle="#e5e7eb";for(let i=0;i<4;i++)ctx.fillRect(170,160+i*60,940,38);
+ ctx.fillStyle="#374151";ctx.font="15px sans-serif";["Documenti","Immagini","Musica","Progetti"].forEach((t,i)=>ctx.fillText("📁  "+t,180,185+i*60));
+ ctx.fillStyle="#111827";ctx.fillRect(0,h-46,w,46);ctx.fillStyle="#fff";ctx.font="16px sans-serif";
+ const now=new Date();ctx.fillText("🪟 Start",16,h-16);ctx.textAlign="right";ctx.fillText(now.toLocaleTimeString("it-IT"),w-16,h-16);
+ ctx.fillStyle="#ef4444";ctx.beginPath();ctx.arc(mx,my,7,0,7);ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke()}
+cv.addEventListener("mousemove",e=>{const r=cv.getBoundingClientRect();mx=(e.clientX-r.left)*cv.width/r.width;my=(e.clientY-r.top)*cv.height/r.height;if(connected)drawRemote()});
+cv.addEventListener("click",()=>{if(connected){toast("Click inviato al dispositivo remoto (simulato)");drawRemote()}});
+function startSim(){clearInterval(timer);timer=setInterval(()=>{if(!connected)return;sec++;$("stTime").textContent=String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");
+ $("stFps").textContent=55+Math.floor(Math.random()*8);$("stPing").textContent=(8+Math.floor(Math.random()*18))+" ms";$("stBit").textContent=(2.4+Math.random()*1.8).toFixed(1).replace(".",",")+" Mb/s";drawRemote()},1000)}
+$("btnFs").onclick=()=>{const el=$("remoteWrap");document.fullscreenElement?document.exitFullscreen():el.requestFullscreen&&el.requestFullscreen()};
+$("btnPrivacy").onclick=()=>{privacy=!privacy;drawRemote();toast(privacy?"Schermo privacy attivo":"Schermo privacy disattivato")};
+const quals=["Alta","Media","Bassa","Personalizzata"];let qi=0;
+$("btnQuality").onclick=()=>{qi=(qi+1)%quals.length;$("btnQuality").textContent="🎞️ Qualità: "+quals[qi];$("stRes").textContent=quals[qi]==="Bassa"?"1280×720":quals[qi]==="Media"?"1600×900":"1920×1080"};
+$("btnClip").onclick=()=>{$("clipText").focus()};
+$("btnKeys").onclick=()=>{$("keysPanel").style.display=$("keysPanel").style.display==="none"?"block":"none"};
+document.querySelectorAll("[data-key]").forEach(b=>b.onclick=()=>toast("Scorciatoia inviata: "+b.dataset.key+" (simulato)"));
+$("clipSend").onclick=()=>{toast("Appunti inviati al remoto (simulato)");$("clipText").value=""};
+$("sensWheel").oninput=e=>store.set("cd_wheel_"+$("sessName").textContent,e.target.value);
+// File
+let files=[],sending=false;
+$("filePick").onchange=e=>{files=[...e.target.files];$("fileList").innerHTML=files.map(f=>`<div class="fileitem"><span>📄 ${f.name}</span><span>${(f.size/1024).toFixed(1)} KB</span></div>`).join("")};
+$("sendFiles").onclick=()=>{if(!connected){$("fileMsg").textContent="⚠️ Connettiti prima a un dispositivo remoto.";return}if(!files.length){$("fileMsg").textContent="⚠️ Seleziona almeno un file.";return}
+ sending=true;let p=0;$("fileMsg").textContent="📤 Invio in corso…";
+ const iv=setInterval(()=>{if(!sending){clearInterval(iv);return}p+=Math.random()*14;if(p>=100){p=100;clearInterval(iv);sending=false;$("fileMsg").textContent="✅ Trasferimento completato ("+files.length+" file)."} $("fileBar").style.width=p+"%"},180)};
+$("cancelFiles").onclick=()=>{sending=false;$("fileBar").style.width="0%";$("fileMsg").textContent="✖ Trasferimento annullato."};
+// Impostazioni
+$("saveSettings").onclick=()=>{store.set("cd_settings",{server:$("setServer").value,q:$("setQuality").value,trusted:$("setTrusted").checked,auto:$("setAuto").checked,priv:$("setPrivacy").checked});$("setMsg").textContent="✅ Impostazioni salvate."};
+(function(){const s=store.get("cd_settings",{});if(s.server)$("setServer").value=s.server;if(s.q)$("setQuality").value=s.q;$("setTrusted").checked=!!s.trusted;$("setAuto").checked=!!s.auto;$("setPrivacy").checked=!!s.priv})();
+$("copyPair").onclick=()=>copyTxt("crossdesk-pair:"+myId+":"+myPass);
+// Download locale
+function download(name,content,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+$("dlSelf").onclick=()=>{download("crossdesk-web-it.html","<!DOCTYPE html>\n"+document.documentElement.outerHTML,"text/html");toast("Web app scaricata — aprila con il browser, funziona offline")};
+$("dlZip").onclick=()=>toast("Usa il pulsante HTML: è già completo. Lo ZIP con README è nel repository (cartella crossdesk-web).");
+</script>
+</body>
+</html>
